@@ -4,8 +4,6 @@
 
 * [React-Native](https://reactnative.dev)
 * [Expo](https://expo.io)
-* [Android-Studio](https://developer.android.com/studio)
-* [Node](https://nodejs.org/en/)
 * [Yarn](https://yarnpkg.com)
 
 ### Installation
