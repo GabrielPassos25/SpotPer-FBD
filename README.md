@@ -10,7 +10,7 @@
 
 1. Clone the repository;
   ```sh
-   git clone https://github.com/GabrielPassos25/SpotPet-FBD.git
+   git clone https://github.com/GabrielPassos25/SpotPer-FBD.git
    ```
 
 2. Start expo server;
