@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/GabrielPassos25/PasswordGenerator">
-    <img src="assets/logo.png" alt="Logo" width="100" height="80">
+    <img src="assets/logo.png" alt="Logo" width="100" height="100">
   </a>
 
   <h3 align="center">SpotPer</h3>
