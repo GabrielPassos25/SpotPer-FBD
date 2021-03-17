@@ -11,6 +11,29 @@
   </p>
 </p>
 
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+  </ol>
+</details>
+
+## About The Project
+This project was made for the database foundation discipline - UFC.
+
+It consists of making an application similar to spotify to test knowledge about databases.
+
 ### Built With
 
 * [React-Native](https://reactnative.dev)
