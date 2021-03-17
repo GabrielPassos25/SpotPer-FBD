@@ -11,7 +11,7 @@
 ### Installation
 
 1. Clone the repository;
-   ```sh
+  ```sh
    git clone https://github.com/GabrielPassos25/PasswordGenerator.git
    ```
 
