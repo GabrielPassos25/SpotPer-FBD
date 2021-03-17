@@ -1,7 +1,9 @@
 <br />
+<p align="center">
 <a href="https://github.com/GabrielPassos25/PasswordGenerator">
     <img src="assets/Screen Shot 2021-03-17 at 20.47.04.png">
  </a>
+</p>
 <p align="center">
   <a href="https://github.com/GabrielPassos25/PasswordGenerator">
     <img src="assets/logo.png" alt="Logo" width="100" height="100">
