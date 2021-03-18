@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@react-navigation/core": "^5.15.2",
+    "@react-navigation/drawer": "^5.12.4",
     "@react-navigation/native": "^5.9.3",
     "@react-navigation/stack": "^5.14.3",
     "expo": "~40.0.0",
@@ -20,6 +21,8 @@
     "react-native-dropdown-menu": "^2.0.0",
     "react-native-gesture-handler": "~1.8.0",
     "react-native-paper": "^4.7.2",
+    "react-native-reanimated": "~1.13.0",
+    "react-native-screens": "~2.15.2",
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
