@@ -48,7 +48,7 @@ export default function Login(){
                         placeholder="Email"
                       />                      
                     <View style={{paddingTop:10}}/>
-                    <View style ={styles.components}>
+                    <View style ={styles.componentsEye}>
                     <TouchableOpacity onPress={() => setVisivel(!visivel)}>
                         <Entypo name="eye" size={24} color="black"/>
                     </TouchableOpacity>
@@ -65,6 +65,9 @@ export default function Login(){
                       />
                     <View style={{paddingTop:10}}/>
                     <View style ={styles.components}>
+                      <TouchableOpacity onPress={()=>navigation.navigate('ForgotPassword')}>
+                          <Text style ={styles.forgotPassword}>Esqueceu a Senha?</Text>
+                      </TouchableOpacity>
                       <TouchableOpacity onPress={()=>navigation.navigate('Register')}>
                           <Text style ={styles.forgotPassword}>Ainda não possui cadastro?</Text>
                       </TouchableOpacity>
@@ -130,9 +133,15 @@ const styles = StyleSheet.create({
         borderRadius:10,
         padding:10
     },
+    componentsEye:{
+        width:"90%",
+        alignItems:'flex-end',
+    },
     components:{
         width:"90%",
-        alignItems:'flex-end'
+        alignItems:'flex-end',
+        flexDirection:'row',
+        justifyContent:'space-between'
     },
     title:{
         color:"#3E6097",
