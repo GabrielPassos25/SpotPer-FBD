@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
 import { useNavigation } from '@react-navigation/core';
-import { StyleSheet, View, Image, Text, TouchableOpacity, TextInput, Platform, ScrollView, SafeAreaView, StatusBar} from 'react-native';
+import {View, Image, Text, TouchableOpacity, TextInput, Platform, ScrollView, SafeAreaView, StatusBar} from 'react-native';
 import { auth } from '../../../firebase';
 import { Entypo } from '@expo/vector-icons'; 
+import styleWeb from '../../styles/web/Login/style'
+import styleAndroid from '../../styles/android/Login/style'
+import styleIOS from '../../styles/iOS/Login/style'
 
 export default function Login(){
     const navigation = useNavigation();
@@ -24,24 +27,24 @@ export default function Login(){
     }
     if(Platform.OS == 'web'){
         return(
-            <View style= {styles.container}>
-                <View style = {styles.container1}>
-                    <View style = {styles.containerImage}>
-                        <Image source = {require('../../../assets/imageLogin.png')} style={styles.image}/>
+            <View style= {styleWeb.container}>
+                <View style = {styleWeb.container1}>
+                    <View style = {styleWeb.containerImage}>
+                        <Image source = {require('../../../assets/imageLogin.png')} style={styleWeb.image}/>
                     </View>
                 </View>
-                <View style = {styles.container2}>
-                    <View style = {styles.containerLogo}>
-                        <Image source = {require('../../../assets/logo.png')} style={styles.logo}/>
-                        <Text style ={styles.title}>Login</Text>
+                <View style = {styleWeb.container2}>
+                    <View style = {styleWeb.containerLogo}>
+                        <Image source = {require('../../../assets/logo.png')} style={styleWeb.logo}/>
+                        <Text style ={styleWeb.title}>Login</Text>
                         <View style={{paddingTop:10}}/>
-                        <Text style ={styles.texts}>Seja bem-vindo ao SpotPer!</Text>
+                        <Text style ={styleWeb.texts}>Seja bem-vindo ao SpotPer!</Text>
                         <View style={{paddingTop:10}}/>
-                        <Text style ={styles.texts}>Insira suas credenciais abaixo para realizar o login na plataforma.</Text>
+                        <Text style ={styleWeb.texts}>Insira suas credenciais abaixo para realizar o login na plataforma.</Text>
                         <View style={{paddingTop:10}}/>
-                                <View style = {styles.componentsEye}>
+                                <View style = {styleWeb.componentsEye}>
                                     <TouchableOpacity onPress={()=>navigation.navigate('Register')}>
-                                        <Text style ={styles.forgotPassword}>Ainda não possui cadastro?</Text>
+                                        <Text style ={styleWeb.forgotPassword}>Ainda não possui cadastro?</Text>
                                     </TouchableOpacity>
                                 </View>
                           <TextInput
@@ -49,11 +52,11 @@ export default function Login(){
                             value={email}
                             color='black'
                             backgroundColor= '#FFFFFF'
-                            style = {styles.input}
+                            style = {styleWeb.input}
                             placeholder="Email"
                           />                      
                         <View style={{paddingTop:10}}/>
-                        <View style ={styles.componentsEye}>
+                        <View style ={styleWeb.componentsEye}>
                         <TouchableOpacity onPress={() => setVisivel(!visivel)}>
                             <Entypo name="eye" size={24} color="black"/>
                         </TouchableOpacity>
@@ -64,18 +67,18 @@ export default function Login(){
                             value={password}
                             color='black'
                             backgroundColor= '#FFFFFF'
-                            style = {styles.input}
+                            style = {styleWeb.input}
                             placeholder="Senha"
                             secureTextEntry = {visivel}
                           />
                         <View style={{paddingTop:10}}/>
-                        <View style ={styles.componentsEye}>
+                        <View style ={styleWeb.componentsEye}>
                             <TouchableOpacity onPress={()=>navigation.navigate('ForgotPassword')}>
-                                <Text style ={styles.forgotPassword}>Esqueceu a Senha?</Text>
+                                <Text style ={styleWeb.forgotPassword}>Esqueceu a Senha?</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={{paddingTop:10}}/>
-                        <TouchableOpacity style = {styles.buttom} onPress={()=>login()}>
+                        <TouchableOpacity style = {styleWeb.buttom} onPress={()=>login()}>
                             <Text style={{color:'white', fontWeight:'bold'}}>Login</Text>
                         </TouchableOpacity>
                     </View>
@@ -83,24 +86,25 @@ export default function Login(){
             </View>
         );
     }
-    else if(Platform.OS === 'android' || Platform.OS === 'ios'){
+
+    else if(Platform.OS === 'android'){
         return(
             <SafeAreaView>
                 <StatusBar backgroundColor="#F3F3F3"/>
                 <ScrollView style={{width:"100%", height:"100%"}}>
-                    <View style= {styles.container}>
-                        <View style = {styles.container2}>
-                            <View style = {styles.containerLogo}>
-                                <Image source = {require('../../../assets/logo.png')} style={styles.logo}/>
-                                <Text style ={styles.title}>Login</Text>
+                    <View style= {styleAndroid.container}>
+                        <View style = {styleAndroid.container2}>
+                            <View style = {styleAndroid.containerLogo}>
+                                <Image source = {require('../../../assets/logo.png')} style={styleAndroid.logo}/>
+                                <Text style ={styleAndroid.title}>Login</Text>
                                 <View style={{paddingTop:10}}/>
-                                <Text style ={styles.texts}>Seja bem-vindo ao SpotPer!</Text>
+                                <Text style ={styleAndroid.texts}>Seja bem-vindo ao SpotPer!</Text>
                                 <View style={{paddingTop:10}}/>
-                                <Text style ={styles.texts}>Insira suas credenciais abaixo para realizar o login na plataforma.</Text>
+                                <Text style ={styleAndroid.texts}>Insira suas credenciais abaixo para realizar o login na plataforma.</Text>
                                 <View style={{paddingTop:10}}/>
-                                <View style = {styles.componentsEye}>
+                                <View style = {styleAndroid.componentsEye}>
                                     <TouchableOpacity onPress={()=>navigation.navigate('Register')}>
-                                        <Text style ={styles.forgotPassword}>Ainda não possui cadastro?</Text>
+                                        <Text style ={styleAndroid.forgotPassword}>Ainda não possui cadastro?</Text>
                                     </TouchableOpacity>
                                 </View>
                                 <TextInput
@@ -108,11 +112,11 @@ export default function Login(){
                                     value={email}
                                     color='black'
                                     backgroundColor= '#FFFFFF'
-                                    style = {styles.input}
+                                    style = {styleAndroid.input}
                                     placeholder="Email"
                                 />                      
                                 <View style={{paddingTop:10}}/>
-                                <View style ={styles.componentsEye}>
+                                <View style ={styleAndroid.componentsEye}>
                                 <TouchableOpacity onPress={() => setVisivel(!visivel)}>
                                     <Entypo name="eye" size={24} color="black"/>
                                 </TouchableOpacity>
@@ -123,18 +127,80 @@ export default function Login(){
                                     value={password}
                                     color='black'
                                     backgroundColor= '#FFFFFF'
-                                    style = {styles.input}
+                                    style = {styleAndroid.input}
                                     placeholder="Senha"
                                     secureTextEntry = {visivel}
                                 />
                                 <View style={{paddingTop:10}}/>
-                                <View style ={styles.componentsEye}>
+                                <View style ={styleAndroid.componentsEye}>
                                     <TouchableOpacity onPress={()=>navigation.navigate('ForgotPassword')}>
-                                        <Text style ={styles.forgotPassword}>Esqueceu a Senha?</Text>
+                                        <Text style ={styleAndroid.forgotPassword}>Esqueceu a Senha?</Text>
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{paddingTop:10}}/>
-                                <TouchableOpacity style = {styles.buttom} onPress={()=>login()}>
+                                <TouchableOpacity style = {styleAndroid.buttom} onPress={()=>login()}>
+                                    <Text style={{color:'white', fontWeight:'bold'}}>Login</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
+        );
+    }
+
+    else if(Platform.OS === 'ios'){
+        return(
+            <SafeAreaView>
+                <StatusBar backgroundColor="#F3F3F3"/>
+                <ScrollView style={{width:"100%", height:"100%"}}>
+                    <View style= {styleIOS.container}>
+                        <View style = {styleIOS.container2}>
+                            <View style = {styleIOS.containerLogo}>
+                                <Image source = {require('../../../assets/logo.png')} style={styleIOS.logo}/>
+                                <Text style ={styleIOS.title}>Login</Text>
+                                <View style={{paddingTop:10}}/>
+                                <Text style ={styleIOS.texts}>Seja bem-vindo ao SpotPer!</Text>
+                                <View style={{paddingTop:10}}/>
+                                <Text style ={styleIOS.texts}>Insira suas credenciais abaixo para realizar o login na plataforma.</Text>
+                                <View style={{paddingTop:10}}/>
+                                <View style = {styleIOS.componentsEye}>
+                                    <TouchableOpacity onPress={()=>navigation.navigate('Register')}>
+                                        <Text style ={styleIOS.forgotPassword}>Ainda não possui cadastro?</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <TextInput
+                                    onChangeText={setEmail}
+                                    value={email}
+                                    color='black'
+                                    backgroundColor= '#FFFFFF'
+                                    style = {styleIOS.input}
+                                    placeholder="Email"
+                                />                      
+                                <View style={{paddingTop:10}}/>
+                                <View style ={styleIOS.componentsEye}>
+                                <TouchableOpacity onPress={() => setVisivel(!visivel)}>
+                                    <Entypo name="eye" size={24} color="black"/>
+                                </TouchableOpacity>
+                                </View>
+                                <View style={{paddingTop:10}}/>
+                                <TextInput
+                                    onChangeText={setPassword}
+                                    value={password}
+                                    color='black'
+                                    backgroundColor= '#FFFFFF'
+                                    style = {styleIOS.input}
+                                    placeholder="Senha"
+                                    secureTextEntry = {visivel}
+                                />
+                                <View style={{paddingTop:10}}/>
+                                <View style ={styleIOS.componentsEye}>
+                                    <TouchableOpacity onPress={()=>navigation.navigate('ForgotPassword')}>
+                                        <Text style ={styleIOS.forgotPassword}>Esqueceu a Senha?</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={{paddingTop:10}}/>
+                                <TouchableOpacity style = {styleIOS.buttom} onPress={()=>login()}>
                                     <Text style={{color:'white', fontWeight:'bold'}}>Login</Text>
                                 </TouchableOpacity>
                             </View>
@@ -145,229 +211,3 @@ export default function Login(){
         );
     }
 }
-
-const styles = StyleSheet.create({
-    ...Platform.select({
-        ios: {
-            container:{
-                flex:1,
-                flexDirection:'column'
-            },
-            container1:{
-                flex:1,
-                backgroundColor:"#D8CECE",
-            },
-            container2:{
-                flex:1,
-                backgroundColor:"#F3F3F3"
-                
-            },
-            containerImage:{
-                justifyContent:'center',
-                alignItems:'center'
-            },
-            image:{
-                flex:1,
-                width: "60%",
-            },
-            logo:{
-                width:"20%",
-                height:100,
-            },
-            containerLogo:{
-                justifyContent:'center',
-                alignItems:'center',
-                flexDirection:'column',
-                paddingTop:40
-            },
-            input:{
-                borderColor:"#3E6097",
-                borderWidth:3,
-                borderRadius:10,
-                padding:10,
-                width:"90%",
-            },
-            buttom:{
-                backgroundColor:'#3E6097',
-                width:"50%",
-                alignItems:'center',
-                borderRadius:10,
-                padding:10
-            },
-            componentsEye:{
-                width:"90%",
-                alignItems:'flex-end',
-            },
-            components:{
-                width:"90%",
-                alignItems:'flex-end',
-                flexDirection:'row',
-                justifyContent:'space-between'
-            },
-            title:{
-                color:"#3E6097",
-                fontWeight:'bold',
-                fontSize:40
-            },
-            texts:{
-                color:"#374754",
-                textAlign:'center',
-                fontSize:18
-            },
-            forgotPassword:{
-                color:"#3E6097",
-                fontWeight:'bold',
-                fontSize:16
-            }
-        },
-        android: {
-            container:{
-                flex:1,
-                flexDirection:'column'
-            },
-            container1:{
-                flex:1,
-                backgroundColor:"#D8CECE",
-            },
-            container2:{
-                flex:1,
-                backgroundColor:"#F3F3F3"
-                
-            },
-            containerImage:{
-                justifyContent:'center',
-                alignItems:'center'
-            },
-            image:{
-                flex:1,
-                width: "60%",
-            },
-            logo:{
-                width:"20%",
-                height:100,
-            },
-            containerLogo:{
-                justifyContent:'center',
-                alignItems:'center',
-                flexDirection:'column',
-                paddingTop:40
-            },
-            input:{
-                borderColor:"#3E6097",
-                borderWidth:3,
-                borderRadius:10,
-                padding:10,
-                width:"90%",
-            },
-            buttom:{
-                backgroundColor:'#3E6097',
-                width:"50%",
-                alignItems:'center',
-                borderRadius:10,
-                padding:10
-            },
-            componentsEye:{
-                width:"90%",
-                alignItems:'flex-end',
-            },
-            components:{
-                width:"90%",
-                alignItems:'flex-end',
-                flexDirection:'row',
-                justifyContent:'space-between'
-            },
-            title:{
-                color:"#3E6097",
-                fontWeight:'bold',
-                fontSize:40
-            },
-            texts:{
-                color:"#374754",
-                textAlign:'center',
-                fontSize:18
-            },
-            forgotPassword:{
-                color:"#3E6097",
-                fontWeight:'bold',
-                fontSize:16
-            }
-        },
-        web:{
-            container:{
-                flex:1,
-                flexDirection:'row',
-            },
-            container1:{
-                flex:1,
-                backgroundColor:"#D8CECE"
-            },
-            container2:{
-                flex:1,
-                backgroundColor:"#F3F3F3"
-                
-            },
-            containerImage:{
-                width:"100%",
-                height:"100%",
-                justifyContent:'center',
-                alignItems:'center'
-            },
-            image:{
-                flex:1,
-                width: "60%",
-                resizeMode:'contain'
-            },
-            logo:{
-                width:"20%",
-                height:100,
-                resizeMode:'contain',
-            },
-            containerLogo:{
-                justifyContent:'center',
-                alignItems:'center',
-                flexDirection:'column',
-                paddingTop:250
-            },
-            input:{
-                borderColor:"#3E6097",
-                borderWidth:3,
-                borderRadius:10,
-                padding:10,
-                resizeMode:'contain',
-                width:"90%",
-            },
-            buttom:{
-                backgroundColor:'#3E6097',
-                width:"50%",
-                alignItems:'center',
-                borderRadius:10,
-                padding:10
-            },
-            componentsEye:{
-                width:"90%",
-                alignItems:'flex-end',
-            },
-            components:{
-                width:"90%",
-                alignItems:'flex-end',
-                flexDirection:'row',
-                justifyContent:'space-between'
-            },
-            title:{
-                color:"#3E6097",
-                fontWeight:'bold',
-                fontSize:40
-            },
-            texts:{
-                color:"#374754",
-                textAlign:'center',
-                fontSize:18
-            },
-            forgotPassword:{
-                color:"#3E6097",
-                fontWeight:'bold',
-                fontSize:16
-            }
-        }
-    })
-});

@@ -1,0 +1,85 @@
+import {StyleSheet} from 'react-native'
+
+const style = StyleSheet.create({
+    container:{
+        flex:1,
+        flexDirection:'row',
+    },
+    container1:{
+        flex:1,
+        backgroundColor:"#D8CECE"
+    },
+    container2:{
+        flex:1,
+        backgroundColor:"#F3F3F3"
+        
+    },
+    containerImage:{
+        width:"100%",
+        height:"100%",
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    image:{
+        flex:1,
+        width: "60%",
+        resizeMode:'contain'
+    },
+    logo:{
+        width:"20%",
+        height:100,
+        resizeMode:'contain',
+    },
+    containerLogo:{
+        justifyContent:'center',
+        alignItems:'center',
+        flexDirection:'column',
+        paddingTop:250
+    },
+    input:{
+        borderColor:"#3E6097",
+        borderWidth:3,
+        borderRadius:10,
+        padding:10,
+        resizeMode:'contain',
+        width:"100%",
+    },
+    buttom:{
+        backgroundColor:'#3E6097',
+        width:"50%",
+        alignItems:'center',
+        borderRadius:10,
+        padding:10
+    },
+    components:{
+        width:"90%",
+        alignItems:'flex-end'
+    },
+    title:{
+        color:"#3E6097",
+        fontWeight:'bold',
+        fontSize:40
+    },
+    texts:{
+        color:"#374754",
+        textAlign:'center',
+        fontSize:18
+    },
+    forgotPassword:{
+        color:"#3E6097",
+        fontWeight:'bold',
+        fontSize:16
+    },
+    email:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        width:"90%"
+    },
+    passwordField:{
+        flexDirection:'row',
+        justifyContent:'space-evenly',
+        width:"90%"
+    }
+});
+
+export default style

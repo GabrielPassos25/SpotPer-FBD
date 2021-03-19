@@ -4,6 +4,9 @@ import { StyleSheet, View, Image, Text, TouchableOpacity, TextInput, Platform, S
 import { auth } from '../../../firebase';
 import { Entypo } from '@expo/vector-icons'; 
 import { ScrollView } from 'react-native-gesture-handler';
+import styleWeb from '../../styles/web/Register/style'
+import styleAndroid from '../../styles/android/Register/style'
+import styleIOS from '../../styles/iOS/Register/style'
 
 export default function Register(){
     const navigation = useNavigation();
@@ -39,45 +42,45 @@ export default function Register(){
     }
     if(Platform.OS === 'web'){
         return(
-            <View style= {styles.container}>
-                <View style = {styles.container1}>
-                    <View style = {styles.containerImage}>
-                        <Image source = {require('../../../assets/imageRegister.png')} style={styles.image}/>
+            <View style= {styleWeb.container}>
+                <View style = {styleWeb.container1}>
+                    <View style = {styleWeb.containerImage}>
+                        <Image source = {require('../../../assets/imageRegister.png')} style={styleWeb.image}/>
                     </View>
                 </View>
-                <View style = {styles.container2}>
-                    <View style = {styles.containerLogo}>
-                        <Image source = {require('../../../assets/logo.png')} style={styles.logo}/>
-                        <Text style ={styles.title}>Registro</Text>
+                <View style = {styleWeb.container2}>
+                    <View style = {styleWeb.containerLogo}>
+                        <Image source = {require('../../../assets/logo.png')} style={styleWeb.logo}/>
+                        <Text style ={styleWeb.title}>Registro</Text>
                         <View style={{paddingTop:10}}/>
-                        <Text style ={styles.texts}>Seja bem-vindo ao SpotPer!</Text>
+                        <Text style ={styleWeb.texts}>Seja bem-vindo ao SpotPer!</Text>
                         <View style={{paddingTop:10}}/>
-                        <Text style ={styles.texts}>Insira suas credenciais abaixo para realizar o cadastro na plataforma.</Text>
+                        <Text style ={styleWeb.texts}>Insira suas credenciais abaixo para realizar o cadastro na plataforma.</Text>
                         <View style={{paddingTop:10}}/>
-                        <View style = {styles.email}>
+                        <View style = {styleWeb.email}>
                             <TextInput
                                 onChangeText={setEmail}
                                 value={email}
                                 color='black'
                                 backgroundColor= '#FFFFFF'
-                                style = {styles.input}
+                                style = {styleWeb.input}
                                 placeholder="Email"
                             />
                         </View>
                         <View style={{paddingTop:10}}/>
-                        <View style ={styles.components}>
+                        <View style ={styleWeb.components}>
                         <TouchableOpacity onPress={() => setVisivel(!visivel)}>
                             <Entypo name="eye" size={24} color="black"/>
                         </TouchableOpacity>
                         </View>
                         <View style={{paddingTop:10}}/>
-                        <View style = {styles.passwordField}>
+                        <View style = {styleWeb.passwordField}>
                             <TextInput
                                 onChangeText={setPassword}
                                 value={password}
                                 color='black'
                                 backgroundColor= '#FFFFFF'
-                                style = {styles.input}
+                                style = {styleWeb.input}
                                 placeholder="Senha"
                                 secureTextEntry = {visivel}
                             />
@@ -87,19 +90,19 @@ export default function Register(){
                                 value={ConfirmPassword}
                                 color='black'
                                 backgroundColor= '#FFFFFF'
-                                style = {styles.input}
+                                style = {styleWeb.input}
                                 placeholder="Confirmar Senha"
                                 secureTextEntry = {visivel}
                             />
                         </View>
                         <View style={{paddingTop:10}}/>
-                        <View style ={styles.components}>
+                        <View style ={styleWeb.components}>
                           <TouchableOpacity onPress={()=>navigation.navigate('Login')}>
                               <Text style ={{color:"#3E6097", fontWeight:'bold', fontSize:16}}>Já possui cadastro?</Text>
                           </TouchableOpacity>
                         </View>
                         <View style={{paddingTop:10}}/>
-                        <TouchableOpacity style = {styles.buttom} onPress={()=>createUser()}>
+                        <TouchableOpacity style = {styleWeb.buttom} onPress={()=>createUser()}>
                             <Text style={{color:'white', fontWeight:'bold'}}>Registrar</Text>
                         </TouchableOpacity>
                     </View>
@@ -107,70 +110,143 @@ export default function Register(){
             </View>
         );
     }
-    else if(Platform.OS === 'android' || Platform.OS === 'ios'){
+    else if(Platform.OS === 'android'){
         return(
             <SafeAreaView>
                 <StatusBar backgroundColor="#F3F3F3"/>
                 <ScrollView style={{width:"100%", height:"100%"}}>
-                    <View style= {styles.container}>
-                        <View style = {styles.container2}>
-                            <View style = {styles.containerLogo}>
-                                <Image source = {require('../../../assets/logo.png')} style={styles.logo}/>
-                                <Text style ={styles.title}>Registro</Text>
+                    <View style= {styleAndroid.container}>
+                        <View style = {styleAndroid.container2}>
+                            <View style = {styleAndroid.containerLogo}>
+                                <Image source = {require('../../../assets/logo.png')} style={styleAndroid.logo}/>
+                                <Text style ={styleAndroid.title}>Registro</Text>
                                 <View style={{paddingTop:10}}/>
-                                <Text style ={styles.texts}>Seja bem-vindo ao SpotPer!</Text>
+                                <Text style ={styleAndroid.texts}>Seja bem-vindo ao SpotPer!</Text>
                                 <View style={{paddingTop:10}}/>
-                                <Text style ={styles.texts}>Insira suas credenciais abaixo para realizar o cadastro na plataforma.</Text>
+                                <Text style ={styleAndroid.texts}>Insira suas credenciais abaixo para realizar o cadastro na plataforma.</Text>
                                 <View style={{paddingTop:10}}/>
-                                <View style = {styles.email}>
+                                <View style = {styleAndroid.email}>
                                     <TextInput
                                         onChangeText={setEmail}
                                         value={email}
                                         color='black'
                                         backgroundColor= '#FFFFFF'
-                                        style = {styles.input}
+                                        style = {styleAndroid.input}
                                         placeholder="Email"
                                     />
                                 </View>
                                 <View style={{paddingTop:10}}/>
-                                <View style ={styles.components}>
+                                <View style ={styleAndroid.components}>
                                 <TouchableOpacity onPress={() => setVisivel(!visivel)}>
                                     <Entypo name="eye" size={24} color="black"/>
                                 </TouchableOpacity>
                                 </View>
                                 <View style={{paddingTop:10}}/>
-                                <View style = {styles.passwordField}>
+                                <View style = {styleAndroid.passwordField}>
                                     <TextInput
                                         onChangeText={setPassword}
                                         value={password}
                                         color='black'
                                         backgroundColor= '#FFFFFF'
-                                        style = {styles.input}
+                                        style = {styleAndroid.input}
                                         placeholder="Senha"
                                         secureTextEntry = {visivel}
                                     />
                                 </View>
                                 <View style={{paddingLeft:40, paddingTop:10}}/>
-                                <View style = {styles.passwordField}>
+                                <View style = {styleAndroid.passwordField}>
                                     <TextInput
                                         onChangeText={setConfirmPassword}
                                         value={ConfirmPassword}
                                         color='black'
                                         backgroundColor= '#FFFFFF'
-                                        style = {styles.input}
+                                        style = {styleAndroid.input}
                                         placeholder="Confirmar Senha"
                                         secureTextEntry = {visivel}
                                     />                            
                                 </View>
                                 <View style={{paddingLeft:40}}/>
                                 <View style={{paddingTop:10}}/>
-                                <View style ={styles.components}>
+                                <View style ={styleAndroid.components}>
                                 <TouchableOpacity onPress={()=>navigation.navigate('Login')}>
                                     <Text style ={{color:"#3E6097", fontWeight:'bold', fontSize:16}}>Já possui cadastro?</Text>
                                 </TouchableOpacity>
                                 </View>
                                 <View style={{paddingTop:10}}/>
-                                <TouchableOpacity style = {styles.buttom} onPress={()=>createUser()}>
+                                <TouchableOpacity style = {styleAndroid.buttom} onPress={()=>createUser()}>
+                                    <Text style={{color:'white', fontWeight:'bold'}}>Registrar</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
+        );
+    }
+    else if(Platform.OS === 'ios'){
+        return(
+            <SafeAreaView>
+                <StatusBar backgroundColor="#F3F3F3"/>
+                <ScrollView style={{width:"100%", height:"100%"}}>
+                    <View style= {styleIOS.container}>
+                        <View style = {styleIOS.container2}>
+                            <View style = {styleIOS.containerLogo}>
+                                <Image source = {require('../../../assets/logo.png')} style={styleIOS.logo}/>
+                                <Text style ={styleIOS.title}>Registro</Text>
+                                <View style={{paddingTop:10}}/>
+                                <Text style ={styleIOS.texts}>Seja bem-vindo ao SpotPer!</Text>
+                                <View style={{paddingTop:10}}/>
+                                <Text style ={styleIOS.texts}>Insira suas credenciais abaixo para realizar o cadastro na plataforma.</Text>
+                                <View style={{paddingTop:10}}/>
+                                <View style = {styleIOS.email}>
+                                    <TextInput
+                                        onChangeText={setEmail}
+                                        value={email}
+                                        color='black'
+                                        backgroundColor= '#FFFFFF'
+                                        style = {styleIOS.input}
+                                        placeholder="Email"
+                                    />
+                                </View>
+                                <View style={{paddingTop:10}}/>
+                                <View style ={styleIOS.components}>
+                                <TouchableOpacity onPress={() => setVisivel(!visivel)}>
+                                    <Entypo name="eye" size={24} color="black"/>
+                                </TouchableOpacity>
+                                </View>
+                                <View style={{paddingTop:10}}/>
+                                <View style = {styleIOS.passwordField}>
+                                    <TextInput
+                                        onChangeText={setPassword}
+                                        value={password}
+                                        color='black'
+                                        backgroundColor= '#FFFFFF'
+                                        style = {styleIOS.input}
+                                        placeholder="Senha"
+                                        secureTextEntry = {visivel}
+                                    />
+                                </View>
+                                <View style={{paddingLeft:40, paddingTop:10}}/>
+                                <View style = {styleIOS.passwordField}>
+                                    <TextInput
+                                        onChangeText={setConfirmPassword}
+                                        value={ConfirmPassword}
+                                        color='black'
+                                        backgroundColor= '#FFFFFF'
+                                        style = {styleIOS.input}
+                                        placeholder="Confirmar Senha"
+                                        secureTextEntry = {visivel}
+                                    />                            
+                                </View>
+                                <View style={{paddingLeft:40}}/>
+                                <View style={{paddingTop:10}}/>
+                                <View style ={styleIOS.components}>
+                                <TouchableOpacity onPress={()=>navigation.navigate('Login')}>
+                                    <Text style ={{color:"#3E6097", fontWeight:'bold', fontSize:16}}>Já possui cadastro?</Text>
+                                </TouchableOpacity>
+                                </View>
+                                <View style={{paddingTop:10}}/>
+                                <TouchableOpacity style = {styleIOS.buttom} onPress={()=>createUser()}>
                                     <Text style={{color:'white', fontWeight:'bold'}}>Registrar</Text>
                                 </TouchableOpacity>
                             </View>
@@ -181,245 +257,3 @@ export default function Register(){
         );
     }
 }
-
-const styles = StyleSheet.create({
-    ...Platform.select({
-        ios:{
-            container:{
-                flex:1,
-                flexDirection:'row',
-            },
-            container1:{
-                flex:1,
-                backgroundColor:"#D8CECE"
-            },
-            container2:{
-                flex:1,
-                backgroundColor:"#F3F3F3"
-                
-            },
-            containerImage:{
-                width:"100%",
-                height:"100%",
-                justifyContent:'center',
-                alignItems:'center'
-            },
-            image:{
-                flex:1,
-                width: "60%",
-            },
-            logo:{
-                width:"20%",
-                height:100,
-            },
-            containerLogo:{
-                justifyContent:'center',
-                alignItems:'center',
-                flexDirection:'column',
-                paddingTop:40
-            },
-            input:{
-                borderColor:"#3E6097",
-                borderWidth:3,
-                borderRadius:10,
-                padding:10,
-                width:"100%",
-            },
-            buttom:{
-                backgroundColor:'#3E6097',
-                width:"50%",
-                alignItems:'center',
-                borderRadius:10,
-                padding:10
-            },
-            components:{
-                width:"90%",
-                alignItems:'flex-end'
-            },
-            title:{
-                color:"#3E6097",
-                fontWeight:'bold',
-                fontSize:40
-            },
-            texts:{
-                color:"#374754",
-                textAlign:'center',
-                fontSize:18
-            },
-            forgotPassword:{
-                color:"#3E6097",
-                fontWeight:'bold',
-                fontSize:16
-            },
-            email:{
-                flexDirection:'row',
-                justifyContent:'space-between',
-                width:"90%"
-            },
-            passwordField:{
-                flexDirection:'row',
-                justifyContent:'space-evenly',
-                width:"90%"
-            }
-        },
-        android:{
-            container:{
-                flex:1,
-                flexDirection:'row',
-            },
-            container1:{
-                flex:1,
-                backgroundColor:"#D8CECE"
-            },
-            container2:{
-                flex:1,
-                backgroundColor:"#F3F3F3"
-                
-            },
-            containerImage:{
-                width:"100%",
-                height:"100%",
-                justifyContent:'center',
-                alignItems:'center'
-            },
-            image:{
-                flex:1,
-                width: "60%",
-            },
-            logo:{
-                width:"20%",
-                height:100,
-            },
-            containerLogo:{
-                justifyContent:'center',
-                alignItems:'center',
-                flexDirection:'column',
-                paddingTop:40
-            },
-            input:{
-                borderColor:"#3E6097",
-                borderWidth:3,
-                borderRadius:10,
-                padding:10,
-                width:"100%",
-            },
-            buttom:{
-                backgroundColor:'#3E6097',
-                width:"50%",
-                alignItems:'center',
-                borderRadius:10,
-                padding:10
-            },
-            components:{
-                width:"90%",
-                alignItems:'flex-end'
-            },
-            title:{
-                color:"#3E6097",
-                fontWeight:'bold',
-                fontSize:40
-            },
-            texts:{
-                color:"#374754",
-                textAlign:'center',
-                fontSize:18
-            },
-            forgotPassword:{
-                color:"#3E6097",
-                fontWeight:'bold',
-                fontSize:16
-            },
-            email:{
-                flexDirection:'row',
-                justifyContent:'space-between',
-                width:"90%"
-            },
-            passwordField:{
-                flexDirection:'row',
-                justifyContent:'space-evenly',
-                width:"90%"
-            }
-        },
-        web:{
-            container:{
-                flex:1,
-                flexDirection:'row',
-            },
-            container1:{
-                flex:1,
-                backgroundColor:"#D8CECE"
-            },
-            container2:{
-                flex:1,
-                backgroundColor:"#F3F3F3"
-                
-            },
-            containerImage:{
-                width:"100%",
-                height:"100%",
-                justifyContent:'center',
-                alignItems:'center'
-            },
-            image:{
-                flex:1,
-                width: "60%",
-                resizeMode:'contain'
-            },
-            logo:{
-                width:"20%",
-                height:100,
-                resizeMode:'contain',
-            },
-            containerLogo:{
-                justifyContent:'center',
-                alignItems:'center',
-                flexDirection:'column',
-                paddingTop:250
-            },
-            input:{
-                borderColor:"#3E6097",
-                borderWidth:3,
-                borderRadius:10,
-                padding:10,
-                resizeMode:'contain',
-                width:"100%",
-            },
-            buttom:{
-                backgroundColor:'#3E6097',
-                width:"50%",
-                alignItems:'center',
-                borderRadius:10,
-                padding:10
-            },
-            components:{
-                width:"90%",
-                alignItems:'flex-end'
-            },
-            title:{
-                color:"#3E6097",
-                fontWeight:'bold',
-                fontSize:40
-            },
-            texts:{
-                color:"#374754",
-                textAlign:'center',
-                fontSize:18
-            },
-            forgotPassword:{
-                color:"#3E6097",
-                fontWeight:'bold',
-                fontSize:16
-            },
-            email:{
-                flexDirection:'row',
-                justifyContent:'space-between',
-                width:"90%"
-            },
-            passwordField:{
-                flexDirection:'row',
-                justifyContent:'space-evenly',
-                width:"90%"
-            }
-        }
-    })
-});
