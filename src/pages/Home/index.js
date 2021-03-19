@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View,Text, Platform} from 'react-native';
 import DataTable, {createTheme} from "react-data-table-component";
 import {Searchbar} from 'react-native-paper'
-import NavBar from '../../components/NavBar'
+import NavBar from '../../components/NavBar/NavBarHome'
 import ImageGiant from '../../components/ImageGiant'
 import movies from '../../data/TableHome/Musics/music'
 import columns from '../../data/TableHome/Header/header'

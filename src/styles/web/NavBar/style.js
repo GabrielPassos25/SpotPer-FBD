@@ -9,14 +9,14 @@ const style = StyleSheet.create({
     },
     components:{
         flexDirection:'row',
-         alignItems:'center',
-          width:"33%"
+        alignItems:'center',
+        width:"33%"
     },
     options:{
         flexDirection:'column',
         alignItems:'center',
         width:"25%",
-        justifyContent:'center'
+        justifyContent:'center',
     },
     textlogo:{
         color:'#3E6097',
@@ -44,7 +44,7 @@ const style = StyleSheet.create({
     },
     icons:{
         width:24,
-        height:24
+        height:24,
     },
     profileicon:{
         width:40,

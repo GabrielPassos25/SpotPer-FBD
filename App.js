@@ -6,16 +6,18 @@ import Register from './src/pages/Register'
 import Login from './src/pages/Login'
 import Home from './src/pages/Home'
 import ForgotPassword from './src/pages/ForgotPassword'
+import AllMusics from './src/pages/AllMusics'
 
 const Stack = createStackNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Login" component={Login}/>
+      <Stack.Navigator initialRouteName="AllMusics" screenOptions={{headerShown: false}}>
         <Stack.Screen name="Register" component={Register}/>
-        <Stack.Screen name="Home" component={Home}/>
+        <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword}/>
+        <Stack.Screen name="Home" component={Home}/>
+        <Stack.Screen name="AllMusics" component={AllMusics}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
