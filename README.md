@@ -57,6 +57,12 @@ It consists of making an application similar to spotify to test knowledge about 
    expo start
    ```
 
+2. Install all dependencies;
+  ```sh
+  yarn
+   ```
+
+
 4. Press w on terminal to open app on web;
 
 5. Use the application :smile:
