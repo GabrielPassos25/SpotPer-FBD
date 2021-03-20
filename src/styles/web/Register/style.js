@@ -42,17 +42,17 @@ const style = StyleSheet.create({
         borderRadius:10,
         padding:10,
         resizeMode:'contain',
-        width:"100%",
+        width:"50%",
     },
     buttom:{
         backgroundColor:'#3E6097',
-        width:"50%",
+        width:"45%",
         alignItems:'center',
         borderRadius:10,
         padding:10
     },
     components:{
-        width:"90%",
+        width:"45%",
         alignItems:'flex-end'
     },
     title:{
@@ -73,12 +73,13 @@ const style = StyleSheet.create({
     email:{
         flexDirection:'row',
         justifyContent:'space-between',
-        width:"90%"
+        width:"90%",
+        justifyContent:'center'
     },
     passwordField:{
         flexDirection:'row',
         justifyContent:'space-evenly',
-        width:"90%"
+        width:"45%"
     }
 });
 

@@ -42,17 +42,17 @@ const style = StyleSheet.create({
         borderRadius:10,
         padding:10,
         resizeMode:'contain',
-        width:"90%",
+        width:"45%",
     },
     buttom:{
         backgroundColor:'#3E6097',
-        width:"50%",
+        width:"45%",
         alignItems:'center',
         borderRadius:10,
         padding:10
     },
     componentsEye:{
-        width:"90%",
+        width:"45%",
         alignItems:'flex-end',
     },
     components:{

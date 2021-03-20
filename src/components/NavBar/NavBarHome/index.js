@@ -19,7 +19,7 @@ export default function NavBar(){
                     <Text style={styleWeb.textlogo}>SpotPer</Text>
                 </View>
                 <View style={styleWeb.components}>
-                    <TouchableOpacity style ={styleWeb.options}>
+                    <TouchableOpacity style ={styleWeb.options} onPress= {()=>navigation.navigate('Home')}>
                         <View style ={styleWeb.options}>
                             <Image source = {require('../../../../assets/homeBlue.png')} style ={styleWeb.icons}/>
                             <Text style={styleWeb.textActive}>Home</Text>
@@ -36,7 +36,7 @@ export default function NavBar(){
                     <View style={{paddingLeft:10}}/>
                     <Text style = {{fontSize:20}}>|</Text>
                     <View style={{paddingLeft:10}}/>
-                    <TouchableOpacity style ={styleWeb.options}>
+                    <TouchableOpacity style ={styleWeb.options} onPress= {()=>navigation.navigate('Playlists')}>
                         <View style ={styleWeb.options}>
                             <Image source = {require('../../../../assets/playlists.png')} style ={styleWeb.icons}/>
                             <Text style={styleWeb.textDeactive}>Playlists</Text>
@@ -45,7 +45,7 @@ export default function NavBar(){
                     <View style={{paddingLeft:10}}/>
                     <Text style = {{fontSize:20}}>|</Text>
                     <View style={{paddingLeft:10}}/>
-                    <TouchableOpacity style ={styleWeb.options}>
+                    <TouchableOpacity style ={styleWeb.options} onPress= {()=>navigation.navigate('Artists')}>
                         <View style ={styleWeb.options}>
                             <Image source = {require('../../../../assets/artistas.png')} style ={styleWeb.icons}/>
                             <Text style={styleWeb.textDeactive}>Artistas</Text>

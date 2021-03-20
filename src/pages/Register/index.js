@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useNavigation } from '@react-navigation/core';
-import { StyleSheet, View, Image, Text, TouchableOpacity, TextInput, Platform, SafeAreaView, StatusBar} from 'react-native';
+import {View, Image, Text, TouchableOpacity, TextInput, Platform, SafeAreaView, StatusBar} from 'react-native';
 import { auth } from '../../../firebase';
 import { Entypo } from '@expo/vector-icons'; 
 import { ScrollView } from 'react-native-gesture-handler';

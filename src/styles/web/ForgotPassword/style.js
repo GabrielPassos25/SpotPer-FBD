@@ -42,7 +42,7 @@ const style = StyleSheet.create({
         borderRadius:10,
         padding:10,
         resizeMode:'contain',
-        width:"90%",
+        width:"50%",
     },
     buttom:{
         backgroundColor:'#3E6097',
@@ -52,11 +52,11 @@ const style = StyleSheet.create({
         padding:10
     },
     componentsEye:{
-        width:"90%",
+        width:"50%",
         alignItems:'flex-end',
     },
     components:{
-        width:"90%",
+        width:"50%",
         alignItems:'flex-end',
     },
     title:{

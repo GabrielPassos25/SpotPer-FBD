@@ -27,7 +27,7 @@ export default function NavBar(){
                     </TouchableOpacity>
                     <Text style = {{fontSize:20}}>|</Text>
                     <View style={{paddingLeft:10}}/>
-                    <TouchableOpacity style ={styleWeb.options}>
+                    <TouchableOpacity style ={styleWeb.options} onPress= {()=>navigation.navigate('AllMusics')}>
                         <View style ={styleWeb.options}>
                             <Image source = {require('../../../../assets/faixasBlue.png')} style ={styleWeb.icons}/>
                             <Text style={styleWeb.textActive}>Faixas</Text>
@@ -36,7 +36,7 @@ export default function NavBar(){
                     <View style={{paddingLeft:10}}/>
                     <Text style = {{fontSize:20}}>|</Text>
                     <View style={{paddingLeft:10}}/>
-                    <TouchableOpacity style ={styleWeb.options}>
+                    <TouchableOpacity style ={styleWeb.options} onPress= {()=>navigation.navigate('Playlists')}>
                         <View style ={styleWeb.options}>
                             <Image source = {require('../../../../assets/playlists.png')} style ={styleWeb.icons}/>
                             <Text style={styleWeb.textDeactive}>Playlists</Text>
@@ -45,7 +45,7 @@ export default function NavBar(){
                     <View style={{paddingLeft:10}}/>
                     <Text style = {{fontSize:20}}>|</Text>
                     <View style={{paddingLeft:10}}/>
-                    <TouchableOpacity style ={styleWeb.options}>
+                    <TouchableOpacity style ={styleWeb.options} onPress= {()=>navigation.navigate('Artists')}>
                         <View style ={styleWeb.options}>
                             <Image source = {require('../../../../assets/artistas.png')} style ={styleWeb.icons}/>
                             <Text style={styleWeb.textDeactive}>Artistas</Text>

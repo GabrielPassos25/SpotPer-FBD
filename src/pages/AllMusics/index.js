@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View,Text, Platform, Image, TouchableOpacity} from 'react-native';
 import DataTable, {createTheme} from "react-data-table-component";
+import { useNavigation } from '@react-navigation/core';
 import {Searchbar} from 'react-native-paper'
 import NavBar from '../../components/NavBar/NavBarFaixas'
 import movies from '../../data/TableHome/Musics/music'
@@ -9,6 +10,7 @@ import styleWeb from '../../styles/web/AllMusics/style'
 
 
 export default function AllMusics(){
+  const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
   const onChangeSearch = query => setSearchQuery(query);
 
@@ -36,11 +38,11 @@ export default function AllMusics(){
             <View style={styleWeb.cardscontainer}>
             <TouchableOpacity>
               <View style={styleWeb.cards}>
-                <Text style={styleWeb.addmusic}>Adicionar Música</Text>
+                <Text style={styleWeb.addmusic}>Adicionar Música(s)</Text>
               </View>
             </TouchableOpacity>
             <View style={{paddingLeft:10}}/>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=> alert('Música(s) Excluídas(s)!')}>
               <View style={styleWeb.cards}>
                 <Text style={styleWeb.removemusic}>Excluir Música</Text>
               </View>
