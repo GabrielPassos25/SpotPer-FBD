@@ -2,13 +2,13 @@ import bcrypt from 'bcrypt'
 
 class Usuario{
     /**
-     * @param {string} username 
      * @param {string} email 
+     * @param {string} username 
      * @param {string} password 
      */
     constructor(username, email, password){
-        this.username = username
         this.email = email
+        this.username = username
         this.password = String(bcrypt.hashSync(password, 10))
     }
 
@@ -30,15 +30,153 @@ class Usuario{
 
 
 
+class Faixa{
+    /**
+     * @param {string} nome 
+     * @param {number} posicao 
+     * @param {number} id_album 
+     * @param {string} descricao 
+     * @param {number} num_faixa 
+     * @param {number} id_compositor 
+     * @param {string} tipo_gravacao 
+     * @param {string} tipo_composicao 
+     * @param {numbers} tempo_execucao - in seconds
+     */
+    constructor(nome, id_album, posicao, id_compositor, tipo_composicao, tipo_gravacao, tempo_execucao, num_faixa, descricao){
+        this.nome = nome
+        this.posicao = posicao
+        this.id_album = id_album
+        this.num_faixa = num_faixa
+        this.descricao = descricao
+        this.tipo_gravacao = tipo_gravacao
+        this.id_compositor = id_compositor
+        this.tipo_composicao = tipo_composicao
+        this.tempo_execucao = tempo_execucaotempo_execucao
+        this.id_compositores = []
+        this.id_interpretes = []
+        this.id_playlists = []
+    }
+}
 
-// class Faixa{
-//     constructor(nome, id_album, posicao, id_compositor, tipo_composicao, tipo_gravacao, tempo_execucao, num_faixa, descricao)
-// }
+
+class Interprete{
+    /**
+     * @param {number} id 
+     * @param {string} nome 
+     * @param {string} tipo 
+     */
+    constructor(nome, id, tipo){
+        this.id = id
+        this.nome = nome
+        this.tipo = tipo
+        this.id_faixas = []
+    }
+}
+
+
+class Compositor{
+    /**
+     * @param {number} id
+     * @param {string} nome 
+     * @param {Date} data_morte 
+     * @param {Date} data_nascimento 
+     * @param {string} cidade_nascimento 
+     * @param {number} id_periodo_musical
+     */
+    constructor(nome, id, cidade_nascimento, data_nascimento, data_morte, id_periodo_musical){
+        this.id = id
+        this.nome = nome
+        this.id_faixas = []
+        this.data_morte = data_morte
+        this.data_nascimento = data_nascimento
+        this.cidade_nascimento = cidade_nascimento
+        this.id_periodo_musical = id_periodo_musical
+    }
+}
+
+
+class PeriodoMusical{
+    /**
+     * @param {number} id
+     * @param {Date} data_fim
+     * @param {Date} data_inicio 
+     * @param {string} descricao 
+     */
+    constructor(id, descricao, data_inicio, data_fim){
+        this.id = id
+        this.data_fim = data_fim
+        this.descricao = descricao
+        this.data_inicio = data_inicio
+    }
+}
+
+
+class Playlist{
+    /**
+     * @param {number} id 
+     * @param {string} nome 
+     * @param {Date} data_criacao 
+     * @param {number} tempo_execucao - in seconds
+     */
+    constructor(nome, id, tempo_execucao, data_criacao){
+        this.id = id
+        this.nome = nome
+        this.id_faixas = []
+        this.data_criacao = data_criacao
+        this.tempo_execucao = tempo_execucao
+    }
+}
+
+
+class Album{
+    /**
+     * @param {number} id 
+     * @param {string} descricao 
+     * @param {Date} data_compra 
+     * @param {Date} data_gravacao 
+     * @param {string} tipo_compra 
+     * @param {number} id_gravadora 
+     * @param {number} preco_compra 
+     */
+    constructor(id, id_gravadora, tipo_compra, descricao, data_gravacao, data_compra, preco_compra){
+        this.id = id
+        this.descricao = descricao
+        this.data_compra = data_compra
+        this.tipo_compra = tipo_compra
+        this.id_gravadora = id_gravadora
+        this.preco_compra = preco_compra
+        this.data_gravacao = data_gravacao
+    }
+}
+
+
+class Gravadora{
+    /**
+     * @param {number} id 
+     * @param {string} nome 
+     * @param {string} endereco 
+     * @param {string} homepage 
+     * @param {number} telefone 
+     */
+    constructor(nome, id, endereco, homepage, telefone){
+        this.id = id
+        this.nome = nome
+        this.endereco = endereco
+        this.homepage = homepage
+        this.telefone = telefone
+    }
+}
 
 
 
 
 export {
+    Album,
+    Faixa,
     Usuario,
-    // Faixa
+    Playlist,
+    Gravadora,
+    Compositor,
+    Interprete,
+    PeriodoMusical
 }
