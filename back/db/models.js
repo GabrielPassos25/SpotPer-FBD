@@ -19,8 +19,26 @@ class Usuario{
     checkPassword(password){
         return bcrypt.compareSync(password, this.password)
     }
+    
+    /**
+     * @param {string} password 
+     */
+    setPassword(password){
+        this.password = bcrypt.hashSync(password, 10)
+    }
 }
 
+
+
+
+// class Faixa{
+//     constructor(nome, id_album, posicao, id_compositor, tipo_composicao, tipo_gravacao, tempo_execucao, num_faixa, descricao)
+// }
+
+
+
+
 export {
-    Usuario
+    Usuario,
+    // Faixa
 }

@@ -1,6 +1,11 @@
 import Express from 'express'
+import { v4 as uuid4 } from 'uuid'
 import { Usuario } from '../db/models.js'
-import { addUser, findUser } from '../db/db.js'
+import { addUser, findUser, updateUser } from '../db/db.js'
+import { sendEmail } from '../mail/mail.js'
+
+
+const resets = {}
 
 
 /**
@@ -13,11 +18,11 @@ export default app=> {
             body: {}
         }
         let body = req.body
-        if(!body || !body['username']){
+        if(!body || !body['email']){
             response.message = "Invalid JSON"
             res.json(response)
         }else{
-            findUser({username: body['username']}, user=>{
+            findUser({email: body['email']}, user=>{
                 response.body['username'] = user.username
                 response.body['email'] = user.email
                 res.json(response)
@@ -35,11 +40,11 @@ export default app=> {
             body: {}
         }
         let body = req.body
-        if(!body || !body['username'] || !body['password']){
+        if(!body || !body['email'] || !body['password']){
             response.message = "Invalid JSON"
             res.json(response)
         }else{
-            findUser({username: body['username']}, user=>{
+            findUser({email: body['email']}, user=>{
                 if(user.checkPassword(body['password'])){
                     response.body['username'] = user.user
                     response.body['email'] = user.email
@@ -65,7 +70,7 @@ export default app=> {
             response.message = "Invalid JSON"
             res.json(response)
         }else{
-            findUser({username: body['username']}, user=>{
+            findUser({email: body['email']}, user=>{
                 response.message = "User already registered"
                 res.json(response)
             }, err=>{
@@ -81,6 +86,61 @@ export default app=> {
                 }, err=>{
                     response.message("Internal Error")
                 })
+            })
+        }
+    })
+
+    app.post('/reset', (req, res)=>{
+        const response = {
+            message: "Ok",
+            body: {}
+        }
+        let body = req.body
+        if(!body || !body['email']){
+            response.message = "Invalid JSON"
+            res.json(response)
+        }else{
+            findUser({email: body['email']}, user=>{
+                let token = uuid4()
+                let url = `http://localhost/reset/${body['email']}/${token}`
+                sendEmail([body['email']], 'Solicitação de reset da senha', {'{{ url }}': url})
+                resets[body['email']] = token
+                response.body['token'] = token
+                response.body['url'] = url
+                res.json(response)
+            }, err=>{
+                response.message = "User not found"
+                res.json(response)
+            })
+        }
+    })
+    
+    app.put('/reset/:email/:token', (req, res)=>{
+        const response = {
+            message: "Ok",
+            body: {}
+        }
+        email = req.params.email
+        token = req.params.token
+        let body = req.body
+        if(!email || !token || resets[email] != token){
+            response.message = "Invalid email or token"
+            res.json(response)
+        }else if(!body || !body['password']){
+            response.message = "Invalid JSON"
+            res.json(response)
+        }else{
+            delete resets[email]
+            findUser({email: email}, user=>{
+                user.setPassword(body['password'])
+                updateUser({email: email}, user, ()=>{
+                    response.body['username'] = user.user
+                    response.body['email'] = user.email
+                    res.json(response)
+                })
+            }, err=>{
+                response.message = "User not found"
+                res.json(response)
             })
         }
     })

@@ -1,5 +1,5 @@
-import config from './config.js'
 import sql from 'mssql'
+import config from './config.js'
 import { Usuario } from './models.js'
 
 
@@ -39,13 +39,13 @@ const addUser = (user, cb, err)=> {
 }
 
 /**
- * @param {{username: string}} filter 
+ * @param {{email: string}} filter 
  * @param {function(Usuario)} cb - called on success
  * @param {function(error)} err - called on error
  */
 const findUser = (filter, cb, err)=>{
     let Query = `select * from Usuario where(
-        username='${filter.username}'
+        email='${filter.email}'
     )`
     query(Query, res=>{
         let user = null
@@ -62,11 +62,26 @@ const findUser = (filter, cb, err)=>{
     }, err)
 }
 
+/**
+ * @param {{email: string}} filter
+ * @param {Usuario} user - new values to update
+ * @param {function(Usuario)} cb - called on success
+ * @param {function(error)} err - called on error
+ */
+const updateUser = (filter, user, cb, err)=>{
+    let Query = `update Usuario set
+        username='${user.username}',
+        password='${user.password}'
+        where email='${user.email}'
+    `
+    query(Query, cb, err)
+}
 
 
 export {
     sql,
     query,
     addUser,
-    findUser
+    findUser,
+    updateUser
 }
