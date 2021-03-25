@@ -104,6 +104,7 @@ const findFaixa = (filter, cb, err)=>{
             faixas.concat(
                 new Faixa(
                     set['id'],
+                    set['url'],
                     set['nome'],
                     set['posicao'],
                     set['artista'],

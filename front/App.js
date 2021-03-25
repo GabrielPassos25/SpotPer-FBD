@@ -14,6 +14,7 @@ import CreatePlaylist from './src/pages/CreatePlaylist'
 import AddMusicsPlaylist from './src/pages/AddMusicsPlaylist'
 import AddMusics from './src/pages/AddMusics'
 import AddMusicsDescription from './src/pages/AddMusicsDescription'
+import ResetPassword from './src/pages/ResetPassword'
 
 export default function App() {
   const Stack = createStackNavigator();
@@ -32,6 +33,7 @@ export default function App() {
         <Stack.Screen name="AddMusicsPlaylist" component={AddMusicsPlaylist}/>
         <Stack.Screen name="AddMusics" component={AddMusics}/>
         <Stack.Screen name="AddMusicsDescription" component={AddMusicsDescription}/>
+        <Stack.Screen name="ResetPassword" component={ResetPassword}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

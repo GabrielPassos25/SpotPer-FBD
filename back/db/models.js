@@ -33,6 +33,7 @@ class Usuario{
 class Faixa{
     /**
      * @param {number} id
+     * @param {string} url
      * @param {string} nome
      * @param {number} posicao
      * @param {string} artista
@@ -43,8 +44,9 @@ class Faixa{
      * @param {number} tempo_execucao - in seconds
      * @param {string} tipo_composicao 
      */
-    constructor(id, nome, posicao, artista, id_album, descricao, vezes_tocada, id_compositor, tipo_gravacao, tempo_execucao, tipo_composicao){
+    constructor(id, url, nome, posicao, artista, id_album, descricao, vezes_tocada, id_compositor, tipo_gravacao, tempo_execucao, tipo_composicao){
         this.id = id
+        this.url = url
         this.nome = nome
         this.posicao = posicao
         this.artista = artista
