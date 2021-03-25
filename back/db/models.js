@@ -32,26 +32,29 @@ class Usuario{
 
 class Faixa{
     /**
-     * @param {string} nome 
-     * @param {number} posicao 
+     * @param {number} id
+     * @param {string} nome
+     * @param {number} posicao
+     * @param {string} artista
      * @param {number} id_album 
      * @param {string} descricao 
-     * @param {number} num_faixa 
      * @param {number} id_compositor 
      * @param {string} tipo_gravacao 
+     * @param {number} tempo_execucao - in seconds
      * @param {string} tipo_composicao 
-     * @param {numbers} tempo_execucao - in seconds
      */
-    constructor(nome, id_album, posicao, id_compositor, tipo_composicao, tipo_gravacao, tempo_execucao, num_faixa, descricao){
+    constructor(id, nome, posicao, artista, id_album, descricao, vezes_tocada, id_compositor, tipo_gravacao, tempo_execucao, tipo_composicao){
+        this.id = id
         this.nome = nome
         this.posicao = posicao
+        this.artista = artista
         this.id_album = id_album
-        this.num_faixa = num_faixa
         this.descricao = descricao
-        this.tipo_gravacao = tipo_gravacao
+        this.vezes_tocada = vezes_tocada
         this.id_compositor = id_compositor
+        this.tipo_gravacao = tipo_gravacao
+        this.tempo_execucao = ttempo_execucao
         this.tipo_composicao = tipo_composicao
-        this.tempo_execucao = tempo_execucaotempo_execucao
         this.id_compositores = []
         this.id_interpretes = []
         this.id_playlists = []

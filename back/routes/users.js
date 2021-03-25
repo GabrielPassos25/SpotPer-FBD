@@ -1,8 +1,8 @@
 import Express from 'express'
 import { v4 as uuid4 } from 'uuid'
 import { Usuario } from '../db/models.js'
-import { addUser, findUser, updateUser } from '../db/db.js'
 import { sendEmail } from '../mail/mail.js'
+import { addUser, findUser, updateUser } from '../db/db.js'
 
 
 const resets = {}

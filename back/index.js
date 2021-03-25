@@ -1,8 +1,8 @@
 import HTTP from 'http'
 import Express from 'express'
 import bodyParser from 'body-parser'
-import routesRegister from './routes/routesRegister.js'
 import { sendEmail } from './mail/mail.js'
+import routesRegister from './routes/routesRegister.js'
 
 const app = Express()
 const http = HTTP.createServer(app)

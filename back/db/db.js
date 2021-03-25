@@ -1,6 +1,6 @@
 import sql from 'mssql'
 import config from './config.js'
-import { Usuario } from './models.js'
+import { Usuario, Faixa } from './models.js'
 
 
 const onError = (err, cb)=> {
@@ -78,10 +78,55 @@ const updateUser = (filter, user, cb, err)=>{
 }
 
 
+
+
+
+
+
+//      Funções Faixa
+
+
+/**
+ * @param {{}} 
+ * @param {function(Faixa[])} cb 
+ * @param {function(error) err 
+ */
+const findFaixa = (filter, cb, err)=>{
+    let Query = 'select * from Faixa'
+    if(filter && JSON.stringify(filter) != JSON.stringify({})){
+        Query += ' where'
+        Object.keys(filter).map(key=> Query += ` ${key}='${filter[key]}'`)
+    }
+    query(Query, res=>{
+        let faixas = []
+        for(let index in res['recordset']){
+            let set  = res['recordset'][index]
+            faixas.concat(
+                new Faixa(
+                    set['id'],
+                    set['nome'],
+                    set['posicao'],
+                    set['artista'],
+                    set['id_album'],
+                    set['descricao'],
+                    set['vezes_tocada'],
+                    set['id_compositor'],
+                    set['tipo_gravacao'],
+                    set['tempo_execucao'],
+                    set['tipo_composicao'],
+                )
+            )
+        }
+        cb(faixas)
+    }, err)
+}
+
+
 export {
     sql,
     query,
     addUser,
     findUser,
-    updateUser
+    findFaixa,
+    updateUser,
 }

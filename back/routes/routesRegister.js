@@ -1,4 +1,6 @@
+import Express from 'express'
 import registerUserRoutes from './users.js'
+import registerFaixaRoutes from './faixas.js'
 
 
 /**
@@ -6,4 +8,5 @@ import registerUserRoutes from './users.js'
  */
 export default app=> {
     registerUserRoutes(app)
+    registerFaixaRoutes(app)
 }
