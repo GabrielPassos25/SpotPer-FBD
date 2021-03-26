@@ -6,12 +6,35 @@ import { Entypo } from '@expo/vector-icons';
 import styleWeb from '../../styles/web/Login/style'
 import styleAndroid from '../../styles/android/Login/style'
 import styleIOS from '../../styles/iOS/Login/style'
+import { sendResetRequest } from '../../../service/api';
 
 export default function ResetPassword(){
     const navigation = useNavigation();
     const [confirmpassword, setConfirmpassword] = useState("");
     const [password, setPassword] = useState("");
     const [visivel, setVisivel] = useState(true);
+
+    const reset = ()=>{
+        if(document){
+            url = document.URL.split(RegExp(":\d+/"))[1]
+            if(url){
+                email = url.split('/')[0]
+                token = url.split('/')[1]
+                if(email && token){
+                    alert("Oka!")
+                    console.log(email, token)
+                    // sendResetRequest(email, token, password, res=>{
+                    //     if(res.message == 'Ok'){
+                    //         alert("Senha redefinida com sucesso!")
+                    //         navigation.navigate('Login')
+                    //     }else alert(res.message)
+                    // })
+                    return
+                }
+            }
+            alert('Email e Token não encontrados!')
+        }else alert("Você precisa estar no navegador para essa função!");
+    }
 
     if(Platform.OS == 'web'){
         return(
@@ -56,7 +79,7 @@ export default function ResetPassword(){
                             secureTextEntry = {visivel}
                           />
                         <View style={{paddingTop:10}}/>
-                        <TouchableOpacity style = {styleWeb.buttom} onPress={()=>{navigation.navigate('Login'); alert('Senha redefinida com sucesso!')}}>
+                        <TouchableOpacity style = {styleWeb.buttom} onPress={ResetPassword}>
                             <Text style={{color:'white', fontWeight:'bold', textAlign:'center'}}>Redefinir Senha</Text>
                         </TouchableOpacity>
                     </View>

@@ -19,7 +19,6 @@ const query = (query, cb, err)=> {
     sql.connect(config).then(con=>{
         con.request().query(query).then(res=> {
             cb(res)
-            con.close()
         }, ex=>onError(ex, err))
     }, ex=>onError(ex, err))
 }
@@ -31,8 +30,8 @@ const query = (query, cb, err)=> {
  */
 const addUser = (user, cb, err)=> {
     let Query = `insert into Usuario values(
-        '${user.username}',
         '${user.email}',
+        '${user.username}',
         '${user.password}'
     )`
     query(Query, cb, err)
@@ -51,12 +50,14 @@ const findUser = (filter, cb, err)=>{
         let user = null
         if(res['recordset']){
             let set  = res['recordset'][0]
-            user = new Usuario(
-                set['username'],
-                set['email'],
-                set['password']
-            )
-            user.password = set['password']
+            if(set){
+                user = new Usuario(
+                    set['username'],
+                    set['email'],
+                    set['password']
+                )
+                user.password = set['password']
+            }else return err()
         }
         cb(user)
     }, err)

@@ -70,22 +70,18 @@ export default app=> {
             response.message = "Invalid JSON"
             res.json(response)
         }else{
-            findUser({email: body['email']}, user=>{
-                response.message = "User already registered"
+            let user = new Usuario(
+                body['username'],
+                body['email'],
+                body['password']
+            )
+            addUser(user, res2=>{
+                response.body['username'] = user.user
+                response.body['email'] = user.email
                 res.json(response)
             }, err=>{
-                let user = new Usuario(
-                    body['username'],
-                    body['email'],
-                    body['password']
-                )
-                addUser(user, ()=>{
-                    response.body['username'] = user.user
-                    response.body['email'] = user.email
-                    res.json(response)
-                }, err=>{
-                    response.message("Internal Error")
-                })
+                response.message = "User already registered"
+                res.json(response)
             })
         }
     })
