@@ -13,6 +13,14 @@ export default function Login(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [visivel, setVisivel] = useState(true);
+
+    React.useEffect(()=>{
+        let url = document.URL.split(RegExp(":\\d+\\/"))[1]
+        console.log(url)
+        if(url && url.startsWith('reset')){
+            navigation.navigate('ResetPassword')
+        }
+    })
     
     const login = () => {
         console.log(email);

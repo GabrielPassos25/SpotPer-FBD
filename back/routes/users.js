@@ -98,7 +98,7 @@ export default app=> {
         }else{
             findUser({email: body['email']}, user=>{
                 let token = uuid4()
-                let url = `http://localhost/reset/${body['email']}/${token}`
+                let url = `http://localhost:19006/reset/${body['email']}/${token}`
                 sendEmail([body['email']], 'Solicitação de reset da senha', {'{{ url }}': url})
                 resets[body['email']] = token
                 response.body['token'] = token

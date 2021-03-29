@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import { useNavigation } from '@react-navigation/core';
-import {View, Image, Text, TouchableOpacity, TextInput, Platform, ScrollView, SafeAreaView, StatusBar} from 'react-native';
+import { View, Image, Text, TouchableOpacity, TextInput, Platform, ScrollView, SafeAreaView, StatusBar } from 'react-native';
 import { auth } from '../../../firebase';
 import { Entypo } from '@expo/vector-icons'; 
 import styleWeb from '../../styles/web/Login/style'
 import styleAndroid from '../../styles/android/Login/style'
 import styleIOS from '../../styles/iOS/Login/style'
-import { sendResetRequest } from '../../../service/api';
+import { sendResetPassword } from '../../../service/api';
 
 export default function ResetPassword(){
     const navigation = useNavigation();
@@ -18,17 +18,17 @@ export default function ResetPassword(){
         if(document){
             url = document.URL.split(RegExp(":\d+/"))[1]
             if(url){
-                email = url.split('/')[0]
-                token = url.split('/')[1]
+                email = url.split('/')[1]
+                token = url.split('/')[2]
                 if(email && token){
-                    alert("Oka!")
+                    alert("Okay!")
                     console.log(email, token)
-                    // sendResetRequest(email, token, password, res=>{
-                    //     if(res.message == 'Ok'){
-                    //         alert("Senha redefinida com sucesso!")
-                    //         navigation.navigate('Login')
-                    //     }else alert(res.message)
-                    // })
+                    sendResetPassword(email, token, password, res=>{
+                        if(res.message == 'Ok'){
+                            alert("Senha redefinida com sucesso!")
+                            navigation.navigate('Login')
+                        }else alert(res.message)
+                    })
                     return
                 }
             }

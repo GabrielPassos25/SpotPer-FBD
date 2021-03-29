@@ -124,6 +124,42 @@ const findFaixa = (filter, cb, err)=>{
 }
 
 
+/**
+ * @param {Faixa} faixa
+ * @param {function(Faixa[])} cb 
+ * @param {function(error) err 
+ */
+const addFaixa = (faixa, cb, err)=>{
+    let Query = `insert into Faixa (
+        id,
+        url,
+        nome,
+        posicao,
+        artista,
+        id_album,
+        descricao,
+        vezes_tocada,
+        id_compositor,
+        tipo_gravacao,
+        tempo_execucao,
+        tipo_composicao
+    )values(
+        ${faixa.id},
+        ${faixa.url},
+        ${faixa.nome},
+        ${faixa.posicao},
+        ${faixa.artista},
+        ${faixa.id_album},
+        ${faixa.descricao},
+        ${faixa.vezes_tocada},
+        ${faixa.id_compositor},
+        ${faixa.tipo_gravacao},
+        ${faixa.tempo_execucao},
+        ${faixa.tipo_composicao}
+    )`
+}
+
+
 export {
     sql,
     query,

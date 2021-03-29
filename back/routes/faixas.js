@@ -24,4 +24,13 @@ export default app=> {
             res.json(response)
         })
     })
+
+    app.post('/faixa', (req, res)=>{
+        const response = {
+            message: "Ok",
+            body: {}
+        }
+        let body = req.body
+        
+    })
 }
