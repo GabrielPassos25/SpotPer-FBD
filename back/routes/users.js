@@ -75,7 +75,7 @@ export default app=> {
                 body['email'],
                 body['password']
             )
-            addUser(user, res2=>{
+            addUser(user, ()=>{
                 response.body['username'] = user.user
                 response.body['email'] = user.email
                 res.json(response)

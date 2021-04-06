@@ -32,31 +32,25 @@ class Usuario{
 
 class Faixa{
     /**
-     * @param {number} id
-     * @param {string} url
+     * @param {string} link
      * @param {string} nome
+     * @param {number} duracao - in seconds
      * @param {number} posicao
-     * @param {string} artista
-     * @param {number} id_album 
+     * @param {number} codAlbum 
      * @param {string} descricao 
      * @param {number} id_compositor 
      * @param {string} tipo_gravacao 
-     * @param {number} tempo_execucao - in seconds
      * @param {string} tipo_composicao 
      */
-    constructor(id, url, nome, posicao, artista, id_album, descricao, vezes_tocada, id_compositor, tipo_gravacao, tempo_execucao, tipo_composicao){
-        this.id = id
-        this.url = url
-        this.nome = nome
+    constructor(link, nome, duracao, posicao, codAlbum, descricao, tipo_gravacao, tipo_composicao){
+        this.codAlbum = codAlbum
         this.posicao = posicao
-        this.artista = artista
-        this.id_album = id_album
-        this.descricao = descricao
-        this.vezes_tocada = vezes_tocada
-        this.id_compositor = id_compositor
-        this.tipo_gravacao = tipo_gravacao
-        this.tempo_execucao = ttempo_execucao
         this.tipo_composicao = tipo_composicao
+        this.tipo_gravacao = tipo_gravacao
+        this.duracao = duracao
+        this.descricao = descricao
+        this.nome = nome
+        this.link = link
         this.id_compositores = []
         this.id_interpretes = []
         this.id_playlists = []
@@ -120,15 +114,15 @@ class Playlist{
     /**
      * @param {number} id 
      * @param {string} nome 
+     * @param {number} tempoExec - in seconds
      * @param {Date} data_criacao 
-     * @param {number} tempo_execucao - in seconds
      */
-    constructor(nome, id, tempo_execucao, data_criacao){
+    constructor(id, nome, tempoExec, data_criacao){
         this.id = id
         this.nome = nome
-        this.id_faixas = []
+        this.tempoExec = tempoExec
         this.data_criacao = data_criacao
-        this.tempo_execucao = tempo_execucao
+        this.id_faixas = []
     }
 }
 

@@ -84,6 +84,8 @@ const updateUser = (filter, user, cb, err)=>{
 
 
 
+
+
 //      Funções Faixa
 
 
@@ -93,33 +95,44 @@ const updateUser = (filter, user, cb, err)=>{
  * @param {function(error) err 
  */
 const findFaixa = (filter, cb, err)=>{
-    let Query = 'select * from Faixa'
+    let Query = 'select * from Faixas'
     if(filter && JSON.stringify(filter) != JSON.stringify({})){
         Query += ' where'
         Object.keys(filter).map(key=> Query += ` ${key}='${filter[key]}'`)
     }
     query(Query, res=>{
-        let faixas = []
-        for(let index in res['recordset']){
-            let set  = res['recordset'][index]
-            faixas.concat(
-                new Faixa(
-                    set['id'],
-                    set['url'],
-                    set['nome'],
+        let Query2 = 'select * from Faixa_Compositor'
+        query(Query2, res2=>{
+            let compositores = {}
+            for(let index in res2['recordset']){
+                let set = res2['recordset'][index]
+                let ca = set['codAlbum']
+                let pos = set['posicao']
+                let cc = set['codComp']
+                
+                if(!compositores[ca]) compositores[ca] = {}
+                if(!compositores[ca][pos]) compositores[ca][pos] = []
+                compositores[ca][pos] = compositores[ca][pos].concat(cc)
+            }
+        
+            let faixas = []
+            for(let index in res['recordset']){
+                let set  = res['recordset'][index]
+                let faixa = new Faixa(
+                    set['codAlbum'],
                     set['posicao'],
-                    set['artista'],
-                    set['id_album'],
-                    set['descricao'],
-                    set['vezes_tocada'],
-                    set['id_compositor'],
-                    set['tipo_gravacao'],
-                    set['tempo_execucao'],
                     set['tipo_composicao'],
+                    set['tipo_gravacao'],
+                    set['duracao'],
+                    set['descricao'],
+                    set['nome'],
+                    set['link'],
                 )
-            )
-        }
-        cb(faixas)
+                faixa.id_compositores = compositores[faixa.codAlbum][faixa.posicao]
+                faixas.concat(faixa)
+            }
+            cb(faixas)
+        })
     }, err)
 }
 
@@ -130,33 +143,57 @@ const findFaixa = (filter, cb, err)=>{
  * @param {function(error) err 
  */
 const addFaixa = (faixa, cb, err)=>{
-    let Query = `insert into Faixa (
-        id,
-        url,
+    let Query = `insert into Faixas (
+        link,
         nome,
+        duracao,
         posicao,
-        artista,
         id_album,
         descricao,
-        vezes_tocada,
-        id_compositor,
         tipo_gravacao,
-        tempo_execucao,
         tipo_composicao
     )values(
-        ${faixa.id},
-        ${faixa.url},
+        ${faixa.link},
         ${faixa.nome},
+        ${faixa.duracao},
         ${faixa.posicao},
-        ${faixa.artista},
-        ${faixa.id_album},
+        ${faixa.codAlbum},
         ${faixa.descricao},
-        ${faixa.vezes_tocada},
-        ${faixa.id_compositor},
         ${faixa.tipo_gravacao},
-        ${faixa.tempo_execucao},
         ${faixa.tipo_composicao}
     )`
+    query(Query, ()=>{
+        for(let index in faixa.id_compositores){
+            let Query2 = `insert into Faixa_Compositor values (
+                ${faixa.codAlbum},
+                ${faixa.posicao},
+                ${faixa.id_compositores[index]}
+            )`
+            query(Query2, ()=>{}, err)
+        }
+        cb()
+    }, err)
+}
+
+
+/**
+ * @param {number} posicao
+ * @param {number} codAlbum
+ * @param {function(Faixa[])} cb
+ * @param {function(error) err
+ */
+const removeFaixa = (posicao, codAlbum, cb, err)=>{
+    let Query = `delete from Faixa_Compositor where
+        codAlbum=${codAlbum} and
+        posicao=${posicao}
+    `
+    query(Query, ()=>{
+        let Query2 = `delete from Faixas where
+            codAlbum=${codAlbum} and
+            posicao=${posicao}
+        `
+        query(Query2, cb, err)
+    }, err)
 }
 
 
@@ -167,4 +204,5 @@ export {
     findUser,
     findFaixa,
     updateUser,
+    removeFaixa,
 }

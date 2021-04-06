@@ -43,7 +43,7 @@ const sendResetRequest = (email, cb)=>{
 const sendResetPassword = (email, token, password, cb)=>{
     api.put(`reset/${email}/${token}`, {
         password: password
-    }, res=>response(res, cb), error)
+    }).then(res=>response(res, cb), error)
 }
 
 export {

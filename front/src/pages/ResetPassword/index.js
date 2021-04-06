@@ -16,7 +16,7 @@ export default function ResetPassword(){
 
     const reset = ()=>{
         if(document){
-            url = document.URL.split(RegExp(":\d+/"))[1]
+            let url = document.URL.split(RegExp(":\\d+/"))[1]
             if(url){
                 email = url.split('/')[1]
                 token = url.split('/')[2]
