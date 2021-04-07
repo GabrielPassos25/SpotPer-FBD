@@ -116,8 +116,8 @@ export default app=> {
             message: "Ok",
             body: {}
         }
-        email = req.params.email
-        token = req.params.token
+        let email = req.params.email
+        let token = req.params.token
         let body = req.body
         if(!email || !token || resets[email] != token){
             response.message = "Invalid email or token"

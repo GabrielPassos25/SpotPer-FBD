@@ -71,10 +71,11 @@ const style = StyleSheet.create({
         fontSize:16
     },
     email:{
-        flexDirection:'row',
+        flexDirection:'column',
         justifyContent:'space-between',
         width:"90%",
-        justifyContent:'center'
+        justifyContent:'center',
+        alignItems:'center'
     },
     passwordField:{
         flexDirection:'row',

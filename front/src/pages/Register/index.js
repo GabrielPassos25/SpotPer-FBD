@@ -7,11 +7,13 @@ import { ScrollView } from 'react-native-gesture-handler';
 import styleWeb from '../../styles/web/Register/style'
 import styleAndroid from '../../styles/android/Register/style'
 import styleIOS from '../../styles/iOS/Register/style'
+import { getUser, registerUser } from '../../../service/api';
 
 export default function Register(){
     const navigation = useNavigation();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [username, setUsername] = useState("");
     const [ConfirmPassword, setConfirmPassword] = useState("");
     const [visivel, setVisivel] = useState(true);
     
@@ -24,21 +26,12 @@ export default function Register(){
             alert("Senha inválida!\nAs senhas devem ser iguais.");
             return
         }
-        try{
-            auth.createUserWithEmailAndPassword(email,password)
-                .then(() => {navigation.navigate("Home"); alert("Usuário criado com sucesso!")})
-                .catch(error => {
-                    switch(error.code){
-                        case 'auth/email-already-in-use':
-                            alert('Email já está cadastrado!','O email informado já está cadastrado em nosso sistema!')
-                            break;
-                        case 'auth/invalid-email':
-                            alert('Email inexistente!','Por favor, verifique o email digitado e tente novamente!');
-                    }
-                })
-        }catch(err){
-            alert("Error : ", err);
-        }
+        registerUser(email, username || 'user', password, res=>{
+            if(res.message == 'Ok'){
+                alert("Usuário criado com sucesso!")
+                navigation.navigate('Login')
+            }else alert(res.message)
+        })
     }
     if(Platform.OS === 'web'){
         return(
@@ -66,6 +59,15 @@ export default function Register(){
                                 style = {styleWeb.input}
                                 placeholder="Email"
                             />
+                            <View style={{paddingTop:10}}/>
+                            <TextInput
+                            onChangeText={setUsername}
+                            value={username}
+                            color='black'
+                            backgroundColor= '#FFFFFF'
+                            style = {styleWeb.input}
+                            placeholder="Usuário"
+                          />       
                         </View>
                         <View style={{paddingTop:10}}/>
                         <View style ={styleWeb.components}>
