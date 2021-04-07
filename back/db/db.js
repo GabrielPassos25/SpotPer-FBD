@@ -1,6 +1,6 @@
 import sql from 'mssql'
 import config from './config.js'
-import { Usuario, Faixa, Playlist, Playlist } from './models.js'
+import { Usuario, Faixa, Playlist   } from './models.js'
 
 
 const onError = (err, cb)=> {
@@ -114,19 +114,18 @@ const findFaixa = (filter, cb, err)=>{
                 if(!compositores[ca][pos]) compositores[ca][pos] = []
                 compositores[ca][pos] = compositores[ca][pos].concat(cc)
             }
-        
             let faixas = []
             for(let index in res['recordset']){
                 let set  = res['recordset'][index]
                 let faixa = new Faixa(
-                    set['codAlbum'],
-                    set['posicao'],
-                    set['tipo_composicao'],
-                    set['tipo_gravacao'],
-                    set['duracao'],
-                    set['descricao'],
-                    set['nome'],
                     set['link'],
+                    set['nome'],
+                    set['duracao'],
+                    set['posicao'],
+                    set['codAlbum'],
+                    set['descricao'],
+                    set['tipo_gravacao'],
+                    set['tipo_composicao'],
                 )
                 faixa.id_compositores = compositores[faixa.codAlbum][faixa.posicao]
                 faixas = faixas.concat(faixa)
@@ -243,7 +242,7 @@ const getPlayLists = (cb, err)=>{
         let Query2 = `select * from Faixa_Playlist`
         query(Query2, res2=>{
             let Playlists = []
-            Faixas = {}
+            let Faixas = {}
             res2['recordset'].map(set=>{
                 let idp = set['idPlaylist']
                 let ca = set['codAlbum']
@@ -253,7 +252,7 @@ const getPlayLists = (cb, err)=>{
                 if(!Faixas[idp][ca]) Faixas[idp][ca] = []
                 Faixas[idp][ca] = Faixas[idp][ca].concat(pos)
             })
-
+            console.log(Faixas)
             res['recordset'].map(set=>{
                 let pl = new Playlist(
                     set['id'],
@@ -261,8 +260,10 @@ const getPlayLists = (cb, err)=>{
                     set['tempoExec'],
                     set['data_criacao']
                 )
-                pl.id_faixas = Faixa[pl.id]
+                pl.id_faixas = Faixas[pl.id]
                 Playlists = Playlists.concat(pl)
+                console.log(pl.id_faixas)
+
             })
             cb(Playlists)
         }, err)

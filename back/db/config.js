@@ -1,8 +1,8 @@
 const config = {
     port: 1433,
-    user: 'sa',
+    user: 'root',
     password: '123',
-    database: 'SpotPer',
+    database: 'BDSpotPer',
     server: 'localhost',
     options: {
         trustedconnection: true,
