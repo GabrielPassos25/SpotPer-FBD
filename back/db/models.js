@@ -122,7 +122,7 @@ class Playlist{
         this.nome = nome
         this.tempoExec = tempoExec
         this.data_criacao = data_criacao
-        this.id_faixas = []
+        this.id_faixas = {}
     }
 }
 

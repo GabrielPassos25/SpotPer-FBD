@@ -1,6 +1,6 @@
 import sql from 'mssql'
 import config from './config.js'
-import { Usuario, Faixa } from './models.js'
+import { Usuario, Faixa, Playlist, Playlist } from './models.js'
 
 
 const onError = (err, cb)=> {
@@ -96,10 +96,10 @@ const updateUser = (filter, user, cb, err)=>{
  */
 const findFaixa = (filter, cb, err)=>{
     let Query = 'select * from Faixas'
-    if(filter && JSON.stringify(filter) != JSON.stringify({})){
-        Query += ' where'
-        Object.keys(filter).map(key=> Query += ` ${key}='${filter[key]}'`)
-    }
+    // if(filter && JSON.stringify(filter) != JSON.stringify({})){
+    //     Query += ' where'
+    //     Object.keys(filter).map(key=> Query += ` ${key}='${filter[key]}'`)
+    // }
     query(Query, res=>{
         let Query2 = 'select * from Faixa_Compositor'
         query(Query2, res2=>{
@@ -129,7 +129,7 @@ const findFaixa = (filter, cb, err)=>{
                     set['link'],
                 )
                 faixa.id_compositores = compositores[faixa.codAlbum][faixa.posicao]
-                faixas.concat(faixa)
+                faixas = faixas.concat(faixa)
             }
             cb(faixas)
         })
@@ -154,11 +154,11 @@ const addFaixa = (faixa, cb, err)=>{
         tipo_composicao
     )values(
         ${faixa.link},
-        ${faixa.nome},
+        '${faixa.nome}',
         ${faixa.duracao},
         ${faixa.posicao},
         ${faixa.codAlbum},
-        ${faixa.descricao},
+        '${faixa.descricao}',
         ${faixa.tipo_gravacao},
         ${faixa.tipo_composicao}
     )`
@@ -197,12 +197,106 @@ const removeFaixa = (posicao, codAlbum, cb, err)=>{
 }
 
 
+
+
+
+
+//      Funções Playlist
+
+
+/**
+ * @param {Playlist} playlist
+ * @param {function(Faixa[])} cb 
+ * @param {function(error) err 
+ */
+const addPlaylist = (playlist, cb, err)=>{
+    let Query = `insert into Playlist values(
+        ${playlist.id},
+        '${playlist.nome}',
+        ${playlist.tempoExec},
+        ${playlist.data_criacao}
+    )`
+    query(Query, ()=>{
+        Object.keys(playlist.id_faixas).map(codAlbum=>{
+            playlist.id_faixas[codAlbum].map(posicao=>{
+                let Query2 = `insert into Faixa_Playlist values(
+                    ${codAlbum},
+                    ${posicao},
+                    ${playlist.id},
+                    ${Date.now()},
+                    0
+                )`
+                query(Query2, ()=>{}, ()=>{})
+            })
+        })
+    }, err)
+}
+
+
+/**
+ * @param {function(Faixa[])} cb 
+ * @param {function(error) err 
+ */
+const getPlayLists = (cb, err)=>{
+    let Query = `select * from Playlist`
+    query(Query, res=>{
+        let Query2 = `select * from Faixa_Playlist`
+        query(Query2, res2=>{
+            let Playlists = []
+            Faixas = {}
+            res2['recordset'].map(set=>{
+                let idp = set['idPlaylist']
+                let ca = set['codAlbum']
+                let pos = set['posicao']
+                
+                if(!Faixas[idp]) Faixas[idp] = {}
+                if(!Faixas[idp][ca]) Faixas[idp][ca] = []
+                Faixas[idp][ca] = Faixas[idp][ca].concat(pos)
+            })
+
+            res['recordset'].map(set=>{
+                let pl = new Playlist(
+                    set['id'],
+                    set['nome'],
+                    set['tempoExec'],
+                    set['data_criacao']
+                )
+                pl.id_faixas = Faixa[pl.id]
+                Playlists = Playlists.concat(pl)
+            })
+            cb(Playlists)
+        }, err)
+    }, err)
+}
+
+
+/**
+ * @param {function(Faixa[])} cb 
+ * @param {function(error) err 
+ */
+const removePlayList = (id, cb, err)=>{
+    let Query = `delete from Faixa_Playlist where
+        idPlaylist=${id}
+    `
+    query(Query, ()=>{
+        let Query2 = `delete from Playlist where
+            id=${id}
+        `
+        query(Quer2, cb, err)
+    }, err)
+}
+
+
 export {
     sql,
     query,
     addUser,
+    addFaixa,
     findUser,
     findFaixa,
     updateUser,
     removeFaixa,
+    addPlaylist,
+    getPlayLists,
+    removePlayList,
 }

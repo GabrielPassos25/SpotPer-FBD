@@ -1,7 +1,7 @@
 
 import Express from 'express'
 import { Faixa } from './../db/models.js'
-import { findFaixam, addFaixa, removeFaixa } from '../db/db.js'
+import { findFaixa, addFaixa, removeFaixa } from '../db/db.js'
 
 
 // findFaixa({}, faixas=>console.log(faixas), err=>console.log("Error:\n", err.originalError.info.message))
