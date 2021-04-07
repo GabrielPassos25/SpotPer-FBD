@@ -15,12 +15,13 @@ import AddMusicsPlaylist from './src/pages/AddMusicsPlaylist'
 import AddMusics from './src/pages/AddMusics'
 import AddMusicsDescription from './src/pages/AddMusicsDescription'
 import ResetPassword from './src/pages/ResetPassword'
+import MusicPlayerTest from './src/pages/MusicPlayerTest'
 
 export default function App() {
   const Stack = createStackNavigator();
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false}}>
+      <Stack.Navigator initialRouteName="Artists" screenOptions={{headerShown: false}}>
         <Stack.Screen name="Register" component={Register}/>
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="ForgotPassword" component={ForgotPassword}/>
@@ -34,6 +35,7 @@ export default function App() {
         <Stack.Screen name="AddMusics" component={AddMusics}/>
         <Stack.Screen name="AddMusicsDescription" component={AddMusicsDescription}/>
         <Stack.Screen name="ResetPassword" component={ResetPassword}/>
+        <Stack.Screen name="MusicPlayerTest" component={MusicPlayerTest}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

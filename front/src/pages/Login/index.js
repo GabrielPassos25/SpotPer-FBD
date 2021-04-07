@@ -6,29 +6,23 @@ import { Entypo } from '@expo/vector-icons';
 import styleWeb from '../../styles/web/Login/style'
 import styleAndroid from '../../styles/android/Login/style'
 import styleIOS from '../../styles/iOS/Login/style'
-import { postLogin } from '../../../service/api'
 
 export default function Login(){
     const navigation = useNavigation();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [visivel, setVisivel] = useState(true);
-
-    React.useEffect(()=>{
-        let url = document.URL.split(RegExp(":\\d+\\/"))[1]
-        console.log(url)
-        if(url && url.startsWith('reset')){
-            navigation.navigate('ResetPassword')
-        }
-    })
     
     const login = () => {
-        console.log(email);
-        console.log(password);
-        postLogin(email, password, res=>{
-            if(res.message == 'Ok'){
-                navigation.navigate('Home')
-            }else alert(res.message)
+      console.log(email);
+      console.log(password);
+        auth.signInWithEmailAndPassword(email,password).then(function(val){
+          setEmail("");
+          setPassword("");
+          navigation.navigate('Home');
+        }).catch(function(error){
+          console.log(error);
+          alert("Credenciais inválidas");
         })
     }
     if(Platform.OS == 'web'){

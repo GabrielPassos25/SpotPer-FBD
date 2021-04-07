@@ -24,9 +24,4 @@ export default [
         sortable: true,
         center:true
     },
-    {
-        name: "Descrição",
-        selector: "descrição",
-        center:true
-    }
 ];

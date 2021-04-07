@@ -36,11 +36,6 @@ export default function AllMusics(){
                 <Text style = {styleWeb.description}>Dica: Crie uma playlist para organizar a visualização das suas músicas.</Text>
               </View>
             <View style={styleWeb.cardscontainer}>
-            <TouchableOpacity>
-              <View style={styleWeb.cards}>
-                <Text style={styleWeb.addmusic}>Adicionar Música(s)</Text>
-              </View>
-            </TouchableOpacity>
             <View style={{paddingLeft:10}}/>
             <TouchableOpacity onPress={()=> alert('Música(s) Excluídas(s)!')}>
               <View style={styleWeb.cards}>
@@ -61,15 +56,18 @@ export default function AllMusics(){
             </View>
             <View style = {styleWeb.table}>           
               <DataTable
-                columns={columns}
-                data={movies}
-                pagination
-                selectableRows
-                noHeader={true}
-                theme="SpotPer"
-                selectableRowsHighlight={true}
-                customStyles={customStyles}
-              />
+                  columns={columns}
+                  data={movies}
+                  theme="SpotPer"
+                  customStyles={customStyles}
+                  noHeader
+                  pagination
+                  selectableRowsHighlight
+                  highlightOnHover
+                  pointerOnHover
+                  selectableRows
+                  onRowClicked = {() => {navigation.navigate('MusicPlayerTest')}}
+                />
             </View>
           </View>
         </View>

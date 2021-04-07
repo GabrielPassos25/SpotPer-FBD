@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {View,Text, Platform} from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 import DataTable, {createTheme} from "react-data-table-component";
 import {Searchbar} from 'react-native-paper'
 import NavBar from '../../components/NavBar/NavBarHome'
@@ -10,6 +11,7 @@ import styleWeb from '../../styles/web/Home/style'
 
 
 export default function Home(){
+  const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
   const onChangeSearch = query => setSearchQuery(query);
 
@@ -45,12 +47,14 @@ export default function Home(){
               <DataTable
                 columns={columns}
                 data={movies}
-                pagination
-                selectableRows
-                noHeader={true}
                 theme="SpotPer"
-                selectableRowsHighlight={true}
                 customStyles={customStyles}
+                noHeader
+                pagination
+                selectableRowsHighlight
+                highlightOnHover
+                pointerOnHover
+                onRowClicked = {() => {navigation.navigate('MusicPlayerTest')}}
               />
             </View>
           </View>

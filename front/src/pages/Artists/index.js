@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {View,Text, Platform, Image, TouchableOpacity, FlatList} from 'react-native';
+import { useNavigation } from '@react-navigation/core';
 import DataTable, {createTheme} from "react-data-table-component";
 import {Searchbar} from 'react-native-paper'
 import NavBar from '../../components/NavBar/NavBarArtists'
@@ -10,6 +11,7 @@ import styleWeb from '../../styles/web/Artists/style'
 export default function Artists(){
   const [searchQuery, setSearchQuery] = useState('');
   const onChangeSearch = query => setSearchQuery(query);
+  const navigation = useNavigation();
 
   /*{Web app}*/
   if(Platform.OS === 'web'){
@@ -60,17 +62,19 @@ export default function Artists(){
                     <View style={styleWeb.imageartist}>
                       <Image source = {require('../../../assets/billie.png')} style={styleWeb.image}/>
                     </View>
-                    <View style={{flex:5}}>
+                    <View style={{flex:5, backgroundColor:'#E3E1E1'}}>
                       <View style = {styleWeb.table}>           
                         <DataTable
                           columns={columns}
-                          data={movies}
+                          data={movies.filter((item) => item.artista == "Billie Eilish")}
                           pagination
-                          selectableRows
                           noHeader={true}
                           theme="SpotPer"
-                          selectableRowsHighlight={true}
                           customStyles={customStyles}
+                          selectableRowsHighlight
+                          highlightOnHover
+                          pointerOnHover
+                          onRowClicked = {() => {navigation.navigate('MusicPlayerTest')}}
                         />
                       </View>
                     </View>
@@ -106,17 +110,19 @@ export default function Artists(){
                     <View style={styleWeb.imageartist}>
                       <Image source = {require('../../../assets/theweeknd.png')} style={styleWeb.image}/>
                     </View>
-                    <View style={{flex:5}}>
+                    <View style={{flex:5, backgroundColor:'#E3E1E1'}}>
                       <View style = {styleWeb.table}>           
                         <DataTable
                           columns={columns}
-                          data={movies}
+                          data={movies.filter((item) => item.artista == "The Weeknd")}
                           pagination
-                          selectableRows
                           noHeader={true}
                           theme="SpotPer"
-                          selectableRowsHighlight={true}
                           customStyles={customStyles}
+                          selectableRowsHighlight
+                          highlightOnHover
+                          pointerOnHover
+                          onRowClicked = {() => {navigation.navigate('MusicPlayerTest')}}
                         />
                       </View>
                     </View>
@@ -133,7 +139,7 @@ export default function Artists(){
               <View style={{flex:1}}>
                 <View style = {{flexDirection:'column'}}>
                   <View style={styleWeb.containersearch}>
-                    <Text style={styleWeb.nameartist}>Billie Eilish</Text>
+                    <Text style={styleWeb.nameartist}>Oasis</Text>
                     <View style={styleWeb.searchbar}>
                       <Searchbar
                         placeholder="Procure músicas"
@@ -149,19 +155,21 @@ export default function Artists(){
                 </View>
                 <View style={{flex:1,flexDirection:'row'}}>
                   <View style={styleWeb.imageartist}>
-                    <Image source = {require('../../../assets/billie.png')} style={styleWeb.image}/>
+                    <Image source = {require('../../../assets/oasis.jpg')} style={styleWeb.image}/>
                   </View>
-                  <View style={{flex:5}}>
+                  <View style={{flex:5, backgroundColor:'#E3E1E1'}}>
                     <View style = {styleWeb.table}>           
                       <DataTable
                         columns={columns}
-                        data={movies}
+                        data={movies.filter((item) => item.artista == "Oasis")}
                         pagination
-                        selectableRows
                         noHeader={true}
                         theme="SpotPer"
-                        selectableRowsHighlight={true}
                         customStyles={customStyles}
+                        selectableRowsHighlight
+                        highlightOnHover
+                        pointerOnHover
+                        onRowClicked = {() => {navigation.navigate('MusicPlayerTest')}}
                       />
                     </View>
                   </View>

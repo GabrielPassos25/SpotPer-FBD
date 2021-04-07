@@ -1,24 +1,34 @@
 import React, {useState} from 'react';
 import { useNavigation } from '@react-navigation/core';
-import { View, Image, Text, TouchableOpacity, TextInput, Platform, SafeAreaView, StatusBar } from 'react-native';
+import {View, Image, Text, TouchableOpacity, TextInput, Platform, SafeAreaView, StatusBar} from 'react-native';
 import { auth } from '../../../firebase';
 import { ScrollView } from 'react-native-gesture-handler';
-import styleWeb from '../../styles/web/ForgotPassword/style';
-import styleAndroid from '../../styles/android/ForgotPassword/style';
-import styleIOS from '../../styles/iOS/ForgotPassword/style';
-import { sendResetRequest } from '../../../service/api';
+import styleWeb from '../../styles/web/ForgotPassword/style'
+import styleAndroid from '../../styles/android/ForgotPassword/style'
+import styleIOS from '../../styles/iOS/ForgotPassword/style'
 
 export default function ForgotPassword(){
     const navigation = useNavigation();
     const [email, setEmail] = useState("");
     
     const ResetPassword = () =>{
-        sendResetRequest(email, res=>{
-            if(res.message == 'Ok'){
-                alert('Um email foi enviado para você com o link para resetar sua senha!')
-                navigation.navigate('Login')
-            }else alert(res.message)
-        })
+        try{
+            auth.sendPasswordResetEmail(email)
+                .then(function (user){
+                alert('Email enviado!','Verifique sua caixa de entrada para realizar a mudança da senha!')
+                })
+                .catch(error => {
+                    switch(error.code){
+                        case 'auth/email-already-in-use':
+                            alert('Email já está cadastrado!','O email informado já está cadastrado em nosso sistema!')
+                            break;
+                        case 'auth/invalid-email':
+                            alert('Email inexistente!','Por favor, verifique o email digitado e tente novamente!');
+                    }       
+                })
+        }catch(e){
+           alert("Erro")
+        }
     }
 
     /*{Web app}*/

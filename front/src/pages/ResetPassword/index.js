@@ -1,40 +1,17 @@
 import React, {useState} from 'react';
 import { useNavigation } from '@react-navigation/core';
-import { View, Image, Text, TouchableOpacity, TextInput, Platform, ScrollView, SafeAreaView, StatusBar } from 'react-native';
+import {View, Image, Text, TouchableOpacity, TextInput, Platform, ScrollView, SafeAreaView, StatusBar} from 'react-native';
 import { auth } from '../../../firebase';
 import { Entypo } from '@expo/vector-icons'; 
 import styleWeb from '../../styles/web/Login/style'
 import styleAndroid from '../../styles/android/Login/style'
 import styleIOS from '../../styles/iOS/Login/style'
-import { sendResetPassword } from '../../../service/api';
 
 export default function ResetPassword(){
     const navigation = useNavigation();
     const [confirmpassword, setConfirmpassword] = useState("");
     const [password, setPassword] = useState("");
     const [visivel, setVisivel] = useState(true);
-
-    const reset = ()=>{
-        if(document){
-            let url = document.URL.split(RegExp(":\\d+/"))[1]
-            if(url){
-                email = url.split('/')[1]
-                token = url.split('/')[2]
-                if(email && token){
-                    alert("Okay!")
-                    console.log(email, token)
-                    sendResetPassword(email, token, password, res=>{
-                        if(res.message == 'Ok'){
-                            alert("Senha redefinida com sucesso!")
-                            navigation.navigate('Login')
-                        }else alert(res.message)
-                    })
-                    return
-                }
-            }
-            alert('Email e Token não encontrados!')
-        }else alert("Você precisa estar no navegador para essa função!");
-    }
 
     if(Platform.OS == 'web'){
         return(
@@ -79,7 +56,7 @@ export default function ResetPassword(){
                             secureTextEntry = {visivel}
                           />
                         <View style={{paddingTop:10}}/>
-                        <TouchableOpacity style = {styleWeb.buttom} onPress={ResetPassword}>
+                        <TouchableOpacity style = {styleWeb.buttom} onPress={()=>{navigation.navigate('Login'); alert('Senha redefinida com sucesso!')}}>
                             <Text style={{color:'white', fontWeight:'bold', textAlign:'center'}}>Redefinir Senha</Text>
                         </TouchableOpacity>
                     </View>

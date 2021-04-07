@@ -17,7 +17,7 @@ const style = StyleSheet.create({
         flex:1, 
         flexDirection:'column', 
         paddingTop:'1%', 
-        paddingLeft:40
+        paddingLeft:40,
     },
     containertext:{
         alignItems:'center'
@@ -39,7 +39,9 @@ const style = StyleSheet.create({
         width:'100%',
         flexDirection:'row',
         alignItems:'center',
-        justifyContent:'space-between'
+        justifyContent:'space-between',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20
     },
     searchbar:{
         padding:10,
@@ -47,10 +49,7 @@ const style = StyleSheet.create({
         paddingRight:25,
     },
     table:{
-        flex:1,
-    },
-    containerimage:{
-        height:'80%',
+        flex:1
     },
     image:{
         flex:1,
@@ -60,7 +59,7 @@ const style = StyleSheet.create({
     cardscontainer:{
         justifyContent:'flex-end',
         alignItems:'flex-end',
-        flexDirection:'row'
+        flexDirection:'row' 
     },
     cards:{
         backgroundColor:'#C7C7C7',
@@ -113,7 +112,8 @@ const style = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         paddingTop:20,
-        paddingBottom:50
+        paddingBottom:50,
+        height:700
     }
 });
 

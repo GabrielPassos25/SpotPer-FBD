@@ -86,16 +86,18 @@ export default function Playlists(){
                       </View>
                       <View style={{flex:5}}>
                         <View style = {styleWeb.table}>           
-                          <DataTable
-                            columns={columns}
-                            data={movies}
-                            pagination
-                            selectableRows
-                            noHeader={true}
-                            theme="SpotPer"
-                            selectableRowsHighlight={true}
-                            customStyles={customStyles}
-                          />
+                        <DataTable
+                          columns={columns}
+                          data={movies}
+                          theme="SpotPer"
+                          customStyles={customStyles}
+                          noHeader
+                          pagination
+                          selectableRowsHighlight
+                          highlightOnHover
+                          pointerOnHover
+                          onRowClicked = {() => {navigation.navigate('MusicPlayerTest')}}
+                        />
                         </View>
                       </View>
                     </View>
@@ -153,16 +155,18 @@ export default function Playlists(){
                       </View>
                       <View style={{flex:5}}>
                         <View style = {styleWeb.table}>           
-                          <DataTable
-                            columns={columns}
-                            data={movies}
-                            pagination
-                            selectableRows
-                            noHeader={true}
-                            theme="SpotPer"
-                            selectableRowsHighlight={true}
-                            customStyles={customStyles}
-                          />
+                        <DataTable
+                          columns={columns}
+                          data={movies}
+                          theme="SpotPer"
+                          customStyles={customStyles}
+                          noHeader
+                          pagination
+                          selectableRowsHighlight
+                          highlightOnHover
+                          pointerOnHover
+                          onRowClicked = {() => {navigation.navigate('MusicPlayerTest')}}
+                        />
                         </View>
                       </View>
                     </View>
@@ -220,16 +224,18 @@ export default function Playlists(){
                       </View>
                       <View style={{flex:5}}>
                         <View style = {styleWeb.table}>           
-                          <DataTable
-                            columns={columns}
-                            data={movies}
-                            pagination
-                            selectableRows
-                            noHeader={true}
-                            theme="SpotPer"
-                            selectableRowsHighlight={true}
-                            customStyles={customStyles}
-                          />
+                        <DataTable
+                          columns={columns}
+                          data={movies}
+                          theme="SpotPer"
+                          customStyles={customStyles}
+                          noHeader
+                          pagination
+                          selectableRowsHighlight
+                          highlightOnHover
+                          pointerOnHover
+                          onRowClicked = {() => {navigation.navigate('MusicPlayerTest')}}
+                        />
                         </View>
                       </View>
                     </View>
