@@ -3,17 +3,29 @@ import {View,Text, Platform} from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import DataTable, {createTheme} from "react-data-table-component";
 import {Searchbar} from 'react-native-paper'
+import {getFaixas} from '../../../service/api.js'
 import NavBar from '../../components/NavBar/NavBarHome'
 import ImageGiant from '../../components/ImageGiant'
-import movies from '../../data/TableHome/Musics/music'
 import columns from '../../data/TableHome/Header/header'
 import styleWeb from '../../styles/web/Home/style'
+import music from '../../data/TableHome/Musics/music.js';
 
 
 export default function Home(){
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
   const onChangeSearch = query => setSearchQuery(query);
+  const [musics, setMusics] = useState({sent:false,musics:[]});
+  React.useEffect(()=>{
+    if(!musics.sent){
+      getFaixas((res)=>{
+        musics.musics = res.body.faixas;
+        musics.sent = true;
+        setMusics(musics)
+      });
+      setMusics({sent:true,musics:[]})
+    }
+  })
 
   /*{Web app}*/
   if(Platform.OS === 'web'){
@@ -46,7 +58,7 @@ export default function Home(){
             <View style = {styleWeb.table}>           
               <DataTable
                 columns={columns}
-                data={movies}
+                data={musics.musics}
                 theme="SpotPer"
                 customStyles={customStyles}
                 noHeader

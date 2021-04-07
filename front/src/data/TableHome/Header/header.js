@@ -8,20 +8,15 @@ export default [
     },
     {
         name: "Artista",
-        selector: "artista",
-        sortable: true,
-        center:true
-    },
-    {
-        name: "Reproduções",
-        selector: "vezesTocadas",
+        selector: "descricao",
         sortable: true,
         center:true
     },
     {
         name: "Duração",
-        selector: "duração",
+        selector: "duracao",
         sortable: true,
-        center:true
+        center:true,
+        format: (row)=>Math.floor(Number(row.duracao)/60) + ':' + Number(row.duracao)%60
     },
 ];

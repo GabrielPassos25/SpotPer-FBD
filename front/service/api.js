@@ -46,6 +46,10 @@ const sendResetPassword = (email, token, password, cb)=>{
     }).then(res=>response(res, cb), error)
 }
 
+const getFaixas = (cb)=>{
+    api.get('/faixa').then(res=>response(res,cb), error)
+}
+
 export {
     api,
     getUser,
@@ -53,4 +57,5 @@ export {
     registerUser,
     sendResetPassword,
     sendResetRequest,
+    getFaixas
 }
