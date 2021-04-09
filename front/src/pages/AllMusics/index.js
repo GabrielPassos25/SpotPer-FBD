@@ -3,6 +3,7 @@ import {View,Text, Platform, Image, TouchableOpacity} from 'react-native';
 import DataTable, {createTheme} from "react-data-table-component";
 import { useNavigation } from '@react-navigation/core';
 import {Searchbar} from 'react-native-paper'
+import {getFaixas} from '../../../service/api.js'
 import NavBar from '../../components/NavBar/NavBarFaixas'
 import movies from '../../data/TableHome/Musics/music'
 import columns from '../../data/TableHome/Header/header'
@@ -13,7 +14,17 @@ export default function AllMusics(){
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
   const onChangeSearch = query => setSearchQuery(query);
-
+  const [musics, setMusics] = useState({sent:false,musics:[]});
+  React.useEffect(()=>{
+    if(!musics.sent){
+      getFaixas((res)=>{
+        musics.musics = res.body.faixas;
+        musics.sent = true;
+        setMusics(musics)
+      });
+      setMusics({sent:true,musics:[]})
+    }
+  })
   /*{Web app}*/
   if(Platform.OS === 'web'){
     return(
@@ -55,19 +66,19 @@ export default function AllMusics(){
               </View>
             </View>
             <View style = {styleWeb.table}>           
-              <DataTable
-                  columns={columns}
-                  data={movies}
-                  theme="SpotPer"
-                  customStyles={customStyles}
-                  noHeader
-                  pagination
-                  selectableRowsHighlight
-                  highlightOnHover
-                  pointerOnHover
-                  selectableRows
-                  onRowClicked = {() => {navigation.navigate('MusicPlayerTest')}}
-                />
+            <DataTable
+                columns={columns}
+                selectableRows
+                data={musics.musics}
+                theme="SpotPer"
+                customStyles={customStyles}
+                noHeader
+                pagination
+                selectableRowsHighlight
+                highlightOnHover
+                pointerOnHover
+                onRowClicked = {() => {navigation.navigate('MusicPlayerTest')}}
+              />
             </View>
           </View>
         </View>
