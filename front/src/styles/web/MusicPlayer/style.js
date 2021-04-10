@@ -10,8 +10,8 @@ const style = StyleSheet.create({
         alignItems:'center'
     },
     tocador:{
-        flex:0.5,
-        width:'40%',
+        flex:0.9,
+        width:'50%',
         backgroundColor:'#E3E1E1',
         borderRadius:20,
         alignItems:'center'
@@ -25,7 +25,7 @@ const style = StyleSheet.create({
         textAlign:'center'
     },
     imageplayer:{
-        flex:0.5,
+        flex:1,
         width:'100%',
         height:200,
         alignItems:'center',

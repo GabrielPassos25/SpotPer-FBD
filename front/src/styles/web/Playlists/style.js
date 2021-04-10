@@ -94,13 +94,6 @@ const style = StyleSheet.create({
         color:'#760000',
         textAlign:'center'
     },
-    title:{
-        fontSize:30,
-        paddingLeft:10,
-        textAlign:'center',
-        color:'#374754',
-        fontWeight:'bold'
-    },
     playlistdescription:{
         backgroundColor:'#E3E1E1',
         paddingRight:10,

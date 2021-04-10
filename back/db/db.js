@@ -1,13 +1,13 @@
 import sql from 'mssql'
 import config from './config.js'
-import { Usuario, Faixa, Playlist   } from './models.js'
+import { Usuario, Faixa, Playlist, Album } from './models.js'
 
 
-const onError = (err, cb)=> {
-    if(err.code == 'ESOCKET'){
+const onError = (err, cb) => {
+    if (err.code == 'ESOCKET') {
         console.log("\x1b[31mErro ao tentar se conectar com o banco!\x1b[0m")
         cb(err)
-    }else cb(err)
+    } else cb(err)
 }
 
 /**
@@ -15,12 +15,12 @@ const onError = (err, cb)=> {
  * @param {function(*)} cb - called on success
  * @param {function(*)} err - called on error
  */
-const query = (query, cb, err)=> {
-    sql.connect(config).then(con=>{
-        con.request().query(query).then(res=> {
+const query = (query, cb, err) => {
+    sql.connect(config).then(con => {
+        con.request().query(query).then(res => {
             cb(res)
-        }, ex=>onError(ex, err))
-    }, ex=>onError(ex, err))
+        }, ex => onError(ex, err))
+    }, ex => onError(ex, err))
 }
 
 /**
@@ -28,7 +28,7 @@ const query = (query, cb, err)=> {
  * @param {function(*)} cb - called on success
  * @param {function(*)} err - called on error
  */
-const addUser = (user, cb, err)=> {
+const addUser = (user, cb, err) => {
     let Query = `insert into Usuario values(
         '${user.email}',
         '${user.username}',
@@ -42,22 +42,22 @@ const addUser = (user, cb, err)=> {
  * @param {function(Usuario)} cb - called on success
  * @param {function(error)} err - called on error
  */
-const findUser = (filter, cb, err)=>{
+const findUser = (filter, cb, err) => {
     let Query = `select * from Usuario where(
         email='${filter.email}'
     )`
-    query(Query, res=>{
+    query(Query, res => {
         let user = null
-        if(res['recordset']){
-            let set  = res['recordset'][0]
-            if(set){
+        if (res['recordset']) {
+            let set = res['recordset'][0]
+            if (set) {
                 user = new Usuario(
                     set['username'],
                     set['email'],
                     set['password']
                 )
                 user.password = set['password']
-            }else return err()
+            } else return err()
         }
         cb(user)
     }, err)
@@ -69,7 +69,7 @@ const findUser = (filter, cb, err)=>{
  * @param {function(Usuario)} cb - called on success
  * @param {function(error)} err - called on error
  */
-const updateUser = (filter, user, cb, err)=>{
+const updateUser = (filter, user, cb, err) => {
     let Query = `update Usuario set
         username='${user.username}',
         password='${user.password}'
@@ -90,44 +90,40 @@ const updateUser = (filter, user, cb, err)=>{
 
 
 /**
- * @param {{}} 
  * @param {function(Faixa[])} cb 
  * @param {function(error) err 
  */
-const findFaixa = (filter, cb, err)=>{
+const getFaixas = (cb, err) => {
     let Query = 'select * from Faixas'
-    // if(filter && JSON.stringify(filter) != JSON.stringify({})){
-    //     Query += ' where'
-    //     Object.keys(filter).map(key=> Query += ` ${key}='${filter[key]}'`)
-    // }
-    query(Query, res=>{
+    query(Query, res => {
         let Query2 = 'select * from Faixa_Compositor'
-        query(Query2, res2=>{
+        query(Query2, res2 => {
             let compositores = {}
-            for(let index in res2['recordset']){
+            for (let index in res2['recordset']) {
                 let set = res2['recordset'][index]
-                let ca = set['codAlbum']
+                let ca = set['cod_album']
                 let pos = set['posicao']
-                let cc = set['codComp']
-                
-                if(!compositores[ca]) compositores[ca] = {}
-                if(!compositores[ca][pos]) compositores[ca][pos] = []
+                let cc = set['cod_comp']
+
+                if (!compositores[ca]) compositores[ca] = {}
+                if (!compositores[ca][pos]) compositores[ca][pos] = []
                 compositores[ca][pos] = compositores[ca][pos].concat(cc)
             }
             let faixas = []
-            for(let index in res['recordset']){
-                let set  = res['recordset'][index]
+            for (let index in res['recordset']) {
+                let set = res['recordset'][index]
                 let faixa = new Faixa(
                     set['link'],
                     set['nome'],
                     set['duracao'],
                     set['posicao'],
-                    set['codAlbum'],
+                    set['cod_album'],
                     set['descricao'],
+                    set['vezes_tocada'],
                     set['tipo_gravacao'],
                     set['tipo_composicao'],
                 )
-                faixa.id_compositores = compositores[faixa.codAlbum][faixa.posicao]
+                faixa.id_compositores = compositores[faixa.cod_album][faixa.posicao]
                 faixas = faixas.concat(faixa)
             }
             cb(faixas)
@@ -138,10 +134,10 @@ const findFaixa = (filter, cb, err)=>{
 
 /**
  * @param {Faixa} faixa
- * @param {function(Faixa[])} cb 
+ * @param {function()} cb 
  * @param {function(error) err 
  */
-const addFaixa = (faixa, cb, err)=>{
+const addFaixa = (faixa, cb, err) => {
     let Query = `insert into Faixas (
         link,
         nome,
@@ -149,6 +145,7 @@ const addFaixa = (faixa, cb, err)=>{
         posicao,
         id_album,
         descricao,
+        vezes_tocada,
         tipo_gravacao,
         tipo_composicao
     )values(
@@ -156,19 +153,20 @@ const addFaixa = (faixa, cb, err)=>{
         '${faixa.nome}',
         ${faixa.duracao},
         ${faixa.posicao},
-        ${faixa.codAlbum},
+        ${faixa.cod_album},
         '${faixa.descricao}',
+        ${faixa.vezes_tocada},
         ${faixa.tipo_gravacao},
         ${faixa.tipo_composicao}
     )`
-    query(Query, ()=>{
-        for(let index in faixa.id_compositores){
+    query(Query, () => {
+        for (let index in faixa.id_compositores) {
             let Query2 = `insert into Faixa_Compositor values (
-                ${faixa.codAlbum},
+                ${faixa.cod_album},
                 ${faixa.posicao},
                 ${faixa.id_compositores[index]}
             )`
-            query(Query2, ()=>{}, err)
+            query(Query2, () => { }, err)
         }
         cb()
     }, err)
@@ -177,18 +175,18 @@ const addFaixa = (faixa, cb, err)=>{
 
 /**
  * @param {number} posicao
- * @param {number} codAlbum
- * @param {function(Faixa[])} cb
+ * @param {number} cod_album
+ * @param {function()} cb
  * @param {function(error) err
  */
-const removeFaixa = (posicao, codAlbum, cb, err)=>{
+const removeFaixa = (posicao, cod_album, cb, err) => {
     let Query = `delete from Faixa_Compositor where
-        codAlbum=${codAlbum} and
+        cod_album=${cod_album} and
         posicao=${posicao}
     `
-    query(Query, ()=>{
+    query(Query, () => {
         let Query2 = `delete from Faixas where
-            codAlbum=${codAlbum} and
+            cod_album=${cod_album} and
             posicao=${posicao}
         `
         query(Query2, cb, err)
@@ -199,33 +197,32 @@ const removeFaixa = (posicao, codAlbum, cb, err)=>{
 
 
 
-
 //      Funções Playlist
 
 
 /**
  * @param {Playlist} playlist
- * @param {function(Faixa[])} cb 
+ * @param {function()} cb 
  * @param {function(error) err 
  */
-const addPlaylist = (playlist, cb, err)=>{
+const addPlaylist = (playlist, cb, err) => {
     let Query = `insert into Playlist values(
         ${playlist.id},
         '${playlist.nome}',
-        ${playlist.tempoExec},
+        ${playlist.tempo_exec},
         ${playlist.data_criacao}
     )`
-    query(Query, ()=>{
-        Object.keys(playlist.id_faixas).map(codAlbum=>{
-            playlist.id_faixas[codAlbum].map(posicao=>{
+    query(Query, () => {
+        Object.keys(playlist.id_faixas).map(cod_album => {
+            playlist.id_faixas[cod_album].map(posicao => {
                 let Query2 = `insert into Faixa_Playlist values(
-                    ${codAlbum},
+                    ${cod_album},
                     ${posicao},
                     ${playlist.id},
                     ${Date.now()},
                     0
                 )`
-                query(Query2, ()=>{}, ()=>{})
+                query(Query2, cb, err)
             })
         })
     }, err)
@@ -233,37 +230,35 @@ const addPlaylist = (playlist, cb, err)=>{
 
 
 /**
- * @param {function(Faixa[])} cb 
+ * @param {function(Playlist[])} cb 
  * @param {function(error) err 
  */
-const getPlayLists = (cb, err)=>{
+const getPlayLists = (cb, err) => {
     let Query = `select * from Playlist`
-    query(Query, res=>{
+    query(Query, res => {
         let Query2 = `select * from Faixa_Playlist`
-        query(Query2, res2=>{
+        query(Query2, res2 => {
             let Playlists = []
             let Faixas = {}
-            res2['recordset'].map(set=>{
-                let idp = set['idPlaylist']
-                let ca = set['codAlbum']
+            res2['recordset'].map(set => {
+                let idp = set['id_playlist']
+                let ca = set['cod_album']
                 let pos = set['posicao']
-                
-                if(!Faixas[idp]) Faixas[idp] = {}
-                if(!Faixas[idp][ca]) Faixas[idp][ca] = []
+
+                if (!Faixas[idp]) Faixas[idp] = {}
+                if (!Faixas[idp][ca]) Faixas[idp][ca] = []
                 Faixas[idp][ca] = Faixas[idp][ca].concat(pos)
             })
             console.log(Faixas)
-            res['recordset'].map(set=>{
+            res['recordset'].map(set => {
                 let pl = new Playlist(
                     set['id'],
                     set['nome'],
-                    set['tempoExec'],
+                    set['tempo_exec'],
                     set['data_criacao']
                 )
                 pl.id_faixas = Faixas[pl.id]
                 Playlists = Playlists.concat(pl)
-                console.log(pl.id_faixas)
-
             })
             cb(Playlists)
         }, err)
@@ -272,20 +267,119 @@ const getPlayLists = (cb, err)=>{
 
 
 /**
- * @param {function(Faixa[])} cb 
+ * @param {number} id
+ * @param {function(Playlist)} cb 
+ * @param {function(error) err
+ */
+const findPlayList = (id, cb, err) => {
+    getPlayLists(Playlists=>{
+        cb(Playlists.find(x=> x['id'] == id))
+    }, err)
+}
+
+
+/**
+ * @param {number} id
+ * @param {function()} cb 
  * @param {function(error) err 
  */
-const removePlayList = (id, cb, err)=>{
+const removePlayList = (id, cb, err) => {
     let Query = `delete from Faixa_Playlist where
-        idPlaylist=${id}
+        id_playlist=${id}
     `
-    query(Query, ()=>{
+    query(Query, () => {
         let Query2 = `delete from Playlist where
             id=${id}
         `
-        query(Quer2, cb, err)
+        query(Query2, cb, err)
     }, err)
 }
+
+
+/**
+ * @param {Faixa} faixa
+ * @param {Playlist} pl
+ * @param {function()} cb 
+ * @param {function(error) err 
+ */
+ const insertFaixaPlayList = (faixa, pl, cb, err) => {
+    let Query = `update Playlist
+        set
+            tempo_exec=${pl.tempo_exec},
+        where
+            id_playlist=${pl.id}
+    `
+    query(Query, () => {
+        if(!pl.id_faixas[faixa.cod_album]) pl.id_faixas[faixa.cod_album] = []
+        pl.id_faixas[faixa.cod_album] = pl.id_faixas[faixa.cod_album].concat(faixa.id)
+        let Query2 = `insert into Faixa_Playlist values(
+            ${cod_album},
+            ${posicao},
+            ${playlist.id},
+            ${Date.now()},
+            0
+        )`
+        query(Query2, cb, err)
+    }, err)
+}
+
+
+/**
+ * @param {Faixa} faixa
+ * @param {Playlist} pl
+ * @param {function()} cb 
+ * @param {function(error) err 
+ */
+ const removeFaixaPlayList = (faixa, pl, cb, err) => {
+    let Query = `update Playlist
+        set
+            tempo_exec=${pl.tempo_exec},
+        where
+            id_playlist=${pl.id}
+    `
+    query(Query, () => {
+        if(!pl.id_faixas[faixa.cod_album]) pl.id_faixas[faixa.cod_album] = []
+        pl.id_faixas[faixa.cod_album] = pl.id_faixas[faixa.cod_album].filter(x=> x != faixa.id)
+        let Query2 = `delete from Faixa_Playlist where
+            id_playlist=${pl.id} and
+            cod_album=${faixa.cod_album} and
+            posicao=${faixa.posicao}
+        )`
+        query(Query2, cb, err)
+    }, err)
+}
+
+
+
+
+
+//      Album
+
+/**
+ * @param {number} id
+ * @param {function(Album)} cb
+ * @param {function(error)} err
+ */
+const findAlbum = (id, cb, err) => {
+    let Query = `select * from Albuns where
+        cod=${id}
+    `
+    query(Query, res=>{
+        let set = res['recordset']
+        let album = new Album(
+            set['id'],
+            set['nome'],
+            set['id_gravadora'],
+            set['tipo_compra'],
+            set['descricao'],
+            set['data_gravacao'],
+            set['data_compra'],
+            set['preco_compra']
+        )
+        cb(album)
+    }, err)
+}
+
 
 
 export {
@@ -294,10 +388,14 @@ export {
     addUser,
     addFaixa,
     findUser,
-    findFaixa,
+    getFaixas,
+    findAlbum,
     updateUser,
     removeFaixa,
     addPlaylist,
     getPlayLists,
+    findPlayList,
     removePlayList,
+    insertFaixaPlayList,
+    removeFaixaPlayList,
 }

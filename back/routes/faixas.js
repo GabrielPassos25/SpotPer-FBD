@@ -1,10 +1,7 @@
 
 import Express from 'express'
 import { Faixa } from './../db/models.js'
-import { findFaixa, addFaixa, removeFaixa } from '../db/db.js'
-
-
-// findFaixa({}, faixas=>console.log(faixas), err=>console.log("Error:\n", err.originalError.info.message))
+import { getFaixas, addFaixa, removeFaixa, insertFaixaPlayList, removeFaixaPlayList } from '../db/db.js'
 
 /**
  * @param {Express.Express} app
@@ -16,7 +13,7 @@ export default app=> {
             body: {}
         }
         let body = req.body
-        findFaixa(body['filter'], faixas=>{
+        getFaixas(faixas=>{
             response.body['faixas'] = faixas
             res.json(response)
         }, err=>{
@@ -33,7 +30,7 @@ export default app=> {
         let body = req.body
         if(
             !body.link || !body.nome || !body.duracao ||
-            !body.posicao || !body.codAlbum || !body.descricao ||
+            !body.posicao || !body.cod_album || !body.descricao ||
             !body.tipo_gravacao || !body.tipo_composicao
         ){
             response.message = "Invalid JSON"
@@ -44,7 +41,7 @@ export default app=> {
                 body.nome,
                 body.duracao,
                 body.posicao,
-                body.codAlbum,
+                body.cod_album,
                 body.descricao,
                 body.tipo_gravacao,
                 body.tipo_composicao
@@ -65,14 +62,53 @@ export default app=> {
             body: {}
         }
         let body = req.body
-        if(!body.codAlbum || !body.posicao){
+        if(!body.cod_album || !body.posicao){
             response.message = "Invalid JSON"
             res.json(response)
         }else{
-            removeFaixa(body.posicao, body.codAlbum, ()=>{
+            removeFaixa(body.posicao, body.cod_album, ()=>{
                 res.json(response)
             }, err=>{
                 response.message = "Faixa not found"
+                res.json(response)
+            })
+        }
+    })
+
+    app.post('/faixa_playlist', (req, res)=>{
+        const response = {
+            message: 'Ok',
+            body: {}
+        }
+        let body = req.body
+        if(!body || !body.faixa || !body.playlist){
+            response.message = "Invalid JSON"
+            res.json(response)
+        }else{
+            insertFaixaPlayList(body.faixa, body.playlist, cb=>{
+                res.json(response)
+            }, err=>{
+                response.message = "Music already exists on playlist"
+                res.json(response)
+            })
+        }
+    })
+    
+
+    app.delete('/faixa_playlist', (req, res)=>{
+        const response = {
+            message: 'Ok',
+            body: {}
+        }
+        let body = req.body
+        if(!body || !body.faixa || !body.playlist){
+            response.message = "Invalid JSON"
+            res.json(response)
+        }else{
+            removeFaixaPlayList(body.faixa, body.playlist, cb=>{
+                res.json(response)
+            }, err=>{
+                response.message = "Internal Error"
                 res.json(response)
             })
         }

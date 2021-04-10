@@ -1,7 +1,7 @@
 
 import Express from 'express'
 import { Playlist } from './../db/models.js'
-import { getPlayLists, addPlaylist, removePlayList } from '../db/db.js'
+import { getPlayLists, addPlaylist, removePlayList, findPlayList } from '../db/db.js'
 
 
 /**
@@ -14,6 +14,16 @@ export default app=>{
             body: {}
         }
         let body = req.body
+        if(body && body.id){
+            findPlayList(pl=>{
+                response.body = pl
+                res.json(response)
+            }, err=>{
+                response.message = "Internal Error",
+                res.json(response)
+            })
+            return;
+        }
 
         getPlayLists(playlists=>{
             response.body['Playlists'] = playlists
@@ -35,7 +45,7 @@ export default app=>{
             !body ||
             !body.id ||
             !body.nome ||
-            !body.tempoExec ||
+            !body.tempo_exec ||
             !body.data_criacao ||
             !body.id_faixas
         ){
@@ -45,7 +55,7 @@ export default app=>{
             let pl = new Playlist(
                 body.id,
                 body.nome,
-                body.tempoExec,
+                body.tempo_exec,
                 body.data_criacao
             )
             pl.id_faixas = body.id_faixas
