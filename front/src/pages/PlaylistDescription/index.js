@@ -7,12 +7,71 @@ import NavBar from '../../components/NavBar/NavBarPlaylists'
 import movies from '../../data/TableHome/Musics/music'
 import columns from '../../data/TableHome/Header/header'
 import styleWeb from '../../styles/web/PlaylistDescription/style'
+import { filter_faixas } from '../../../service/utils.js'
+import { getFaixas, removePlaylist, remove_faixa_from_playlist } from '../../../service/api.js'
 
 
 export default function PlaylistDescription(){
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
-  const onChangeSearch = query => setSearchQuery(query);
+  const [sentMusics, setSentMusics] = useState(false)
+  const [receivedMusics, setReceivedMusics] = useState(false)
+  const [faixas, setFaixas] = useState([])
+  const [faixasFiltradas, setFaixasFiltradas] = useState([])
+  const [selectedFaixas, setSelectedFaixas] = useState([])
+
+  const pl = JSON.parse(localStorage.getItem("current_playlist"))
+
+  const deletePlaylist = () => {
+    removePlaylist(pl.id, res => {
+      if (res.message == 'Ok') {
+        alert("Playlist deletada com sucesso!")
+        navigation.navigate('Playlists')
+      } else alert(res.message)
+    })
+  }
+
+  const getMusics = () => {
+    if (!receivedMusics) return []
+
+    let Faixas = []
+    Object.keys(pl.id_faixas).map(ca => {
+      pl.id_faixas[ca].map(pos => {
+        let faixa = faixasFiltradas.find(x=> x['cod_album'] == ca && x['posicao'] == pos)
+        if(faixa) Faixas = Faixas.concat(faixa)
+      })
+    })
+    return Faixas
+  }
+
+  const removeFaixas = () => {
+    for(let i in selectedFaixas){
+      remove_faixa_from_playlist(selectedFaixas[i], pl, res => {
+        if(res.message != 'Ok') alert(res.message)
+        if(i == selectedFaixas.length -1){
+          alert("Músicas removidas com sucesso!")
+          navigation.navigate('PlaylistDescription')
+        }
+      })
+    }
+  }
+  
+  React.useEffect(() => {
+    if (!sentMusics) {
+      getFaixas((res) => {
+        setSentMusics(true)
+        setReceivedMusics(true)
+        setFaixas(res.body.faixas)
+        setFaixasFiltradas(res.body.faixas)
+      });
+      setSentMusics(true)
+    }
+  })
+  
+  const onChangeSearch = query => {
+    setFaixasFiltradas(filter_faixas(faixas, query))
+    setSearchQuery(query);
+  }
 
   /*{Web app}*/
   if(Platform.OS === 'web'){
@@ -30,13 +89,17 @@ export default function PlaylistDescription(){
           <View style = {styleWeb.home}>
             <View>
               <View>
-                <Text style = {styleWeb.title}>Playlist de Rock</Text>
+                <Text style = {styleWeb.title}>Playlist - {pl.nome}</Text>
+                <View style={{paddingTop:10}}></View>
+                <Text style = {styleWeb.description}>Nessa página você pode excluir suas músicas, selecionando a música e clicando em excluir música!</Text>
+                <Text style = {styleWeb.description}>Para adicionar músicas basta clicar no botão "Adicionar Músicas"!</Text>
                 <View style={{paddingTop:20}}></View>
-                <Text style = {styleWeb.description}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Text>
               </View>
             <View style={{flexDirection:'row', justifyContent:'space-between'}}>
               <View>
-              <TouchableOpacity onPress={()=> {navigation.navigate('Playlists');alert('Playlist Apagada')}}>
+              <TouchableOpacity onPress={()=> {
+                deletePlaylist()
+              }}>
                 <View style={styleWeb.cardremove}>
                   <Text style={styleWeb.removeplaylist}>Excluir Playlist</Text>
                 </View>
@@ -50,7 +113,7 @@ export default function PlaylistDescription(){
                 </View>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={()=>alert('Música(s) Excluídas(s)!')}>
+              <TouchableOpacity onPress={removeFaixas}>
                 <View style={styleWeb.cards}>
                   <Text style={styleWeb.removemusic}>Excluir Música</Text>
                 </View>
@@ -72,13 +135,19 @@ export default function PlaylistDescription(){
             <View style = {styleWeb.table}>           
               <DataTable
                 columns={columns}
-                data={movies}
+                data={getMusics(pl.id)}
+                theme="SpotPer"
+                customStyles={customStyles}
+                noHeader
                 pagination
                 selectableRows
-                noHeader={true}
-                theme="SpotPer"
-                selectableRowsHighlight={true}
-                customStyles={customStyles}
+                highlightOnHover
+                pointerOnHover
+                onRowClicked = {row => {
+                  localStorage.setItem('current_music', JSON.stringify(row))
+                  navigation.navigate('MusicPlayerTest')
+                }}
+                onSelectedRowsChange = {value => setSelectedFaixas(value.selectedRows)}
               />
             </View>
           </View>

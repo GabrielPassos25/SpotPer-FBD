@@ -95,9 +95,10 @@ const style = StyleSheet.create({
     },
     nameartist:{
         fontSize:30,
+        padding:10,
         paddingLeft:10,
         textAlign:'center',
-        color:'#374754',
+        color:'#3E6097',
         fontWeight:'bold'
     },
     playlistdescription:{

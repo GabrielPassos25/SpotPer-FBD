@@ -77,7 +77,10 @@ export default function AllMusics(){
                 selectableRowsHighlight
                 highlightOnHover
                 pointerOnHover
-                onRowClicked = {() => {navigation.navigate('MusicPlayerTest')}}
+                onRowClicked = {row => {
+                  localStorage.setItem('current_music', JSON.stringify(row))
+                  navigation.navigate('MusicPlayerTest')
+                }}
               />
             </View>
           </View>

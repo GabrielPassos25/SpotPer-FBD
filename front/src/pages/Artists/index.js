@@ -41,13 +41,6 @@ export default function Artists(){
                   <Text style = {styleWeb.description}>Aqui está a seleção de todos os seus artistas!</Text>
                   <View style={{alignItems:'center'}}>
                     <View style={{paddingTop:20}}/>
-                    <Searchbar
-                      placeholder="Procure playlists"
-                      onChangeText={onChangeSearch}
-                      value={searchQuery}
-                      style ={{borderRadius:10, width:"20%"}}
-                      place
-                    /> 
                   </View>
                 </View>
               </View>
@@ -66,7 +59,7 @@ export default function Artists(){
                       </View>
                     </View>
                     <View style = {styleWeb.playlistdescription}>
-                      <Text style ={{fontWeight:'bold',fontSize:14}}>Billie Eilish Pirate Baird O'Connell, mais conhecida como Billie Eilish, é uma cantora e compositora estadunidense. Ela ganhou popularidade em 2016, quando lançou seu single de estreia "Ocean Eyes" no SoundCloud, posteriormente lançado pelas gravadoras Darkroom e Interscope Records.</Text>
+                      <Text style ={{fontSize:14}}>Billie Eilish Pirate Baird O'Connell, mais conhecida como Billie Eilish, é uma cantora e compositora estadunidense. Ela ganhou popularidade em 2016, quando lançou seu single de estreia "Ocean Eyes" no SoundCloud, posteriormente lançado pelas gravadoras Darkroom e Interscope Records.</Text>
                     </View>
                   </View>
                   <View style={{flex:1,flexDirection:'row'}}>
@@ -85,7 +78,10 @@ export default function Artists(){
                         selectableRowsHighlight
                         highlightOnHover
                         pointerOnHover
-                        onRowClicked = {() => {navigation.navigate('MusicPlayerTest')}}
+                        onRowClicked = {row => {
+                          localStorage.setItem('current_music', JSON.stringify(row))
+                          navigation.navigate('MusicPlayerTest')
+                        }}
                       />
                       </View>
                     </View>
@@ -114,7 +110,7 @@ export default function Artists(){
                       </View>
                     </View>
                     <View style = {styleWeb.playlistdescription}>
-                      <Text style ={{fontWeight:'bold',fontSize:14}}>Abel Makkonen Tesfaye, mais conhecido por seu nome artístico the Weeknd, é um cantor, compositor, ator e produtor musical canadense. Ele ajudou a expandir a paleta musical do R&B, ao incorporar influências indie e de música eletrônica; seu trabalho é classificado como R&B alternativo.</Text>
+                      <Text style ={{fontSize:14}}>Abel Makkonen Tesfaye, mais conhecido por seu nome artístico the Weeknd, é um cantor, compositor, ator e produtor musical canadense. Ele ajudou a expandir a paleta musical do R&B, ao incorporar influências indie e de música eletrônica; seu trabalho é classificado como R&B alternativo.</Text>
                     </View>
                   </View>
                   <View style={{flex:1,flexDirection:'row'}}>
@@ -133,7 +129,10 @@ export default function Artists(){
                         selectableRowsHighlight
                         highlightOnHover
                         pointerOnHover
-                        onRowClicked = {() => {navigation.navigate('MusicPlayerTest')}}
+                        onRowClicked = {row => {
+                          localStorage.setItem('current_music', JSON.stringify(row))
+                          navigation.navigate('MusicPlayerTest')
+                        }}
                       />
                       </View>
                     </View>
@@ -161,7 +160,7 @@ export default function Artists(){
                     </View>
                   </View>
                   <View style = {styleWeb.playlistdescription}>
-                    <Text style ={{fontWeight:'bold',fontSize:14}}>Oasis foi uma banda inglesa de rock formada no ano de 1991, na cidade de Manchester. Até a sua extinção em 2009, era composta por Liam Gallagher, Noel Gallagher, Gem Archer, Andy Bell e Chris Sharrock.</Text>
+                    <Text style ={{fontSize:14}}>Oasis foi uma banda inglesa de rock formada no ano de 1991, na cidade de Manchester. Até a sua extinção em 2009, era composta por Liam Gallagher, Noel Gallagher, Gem Archer, Andy Bell e Chris Sharrock.</Text>
                   </View>
                 </View>
                 <View style={{flex:1,flexDirection:'row'}}>
@@ -180,7 +179,10 @@ export default function Artists(){
                         selectableRowsHighlight
                         highlightOnHover
                         pointerOnHover
-                        onRowClicked = {() => {navigation.navigate('MusicPlayerTest')}}
+                        onRowClicked = {row => {
+                          localStorage.setItem('current_music', JSON.stringify(row))
+                          navigation.navigate('MusicPlayerTest')
+                        }}
                       />
                     </View>
                   </View>
@@ -207,7 +209,7 @@ export default function Artists(){
                     </View>
                   </View>
                   <View style = {styleWeb.playlistdescription}>
-                    <Text style ={{fontWeight:'bold',fontSize:14}}>Aqui está a relação de todas as suas músicas pertencentes a outros artistas!</Text>
+                    <Text style ={{fontSize:14}}>Aqui está a relação de todas as suas músicas pertencentes a outros artistas!</Text>
                   </View>
                 </View>
                 <View style={{flex:1,flexDirection:'row'}}>
@@ -226,7 +228,10 @@ export default function Artists(){
                         selectableRowsHighlight
                         highlightOnHover
                         pointerOnHover
-                        onRowClicked = {() => {navigation.navigate('MusicPlayerTest')}}
+                        onRowClicked = {row => {
+                          localStorage.setItem('current_music', JSON.stringify(row))
+                          navigation.navigate('MusicPlayerTest')
+                        }}
                       />
                     </View>
                   </View>

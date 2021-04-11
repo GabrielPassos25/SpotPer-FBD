@@ -7,12 +7,76 @@ import NavBar from '../../components/NavBar/NavBarFaixas'
 import movies from '../../data/TableHome/Musics/music'
 import columns from '../../data/TableHome/Header/header'
 import styleWeb from '../../styles/web/AllMusics/style'
+import { filter_faixas } from '../../../service/utils.js'
+import { getFaixas, add_faixa_into_playlist } from '../../../service/api.js'
 
 
 export default function AddMusicsDescription(){
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
-  const onChangeSearch = query => setSearchQuery(query);
+  const [sentMusics, setSentMusics] = useState(false)
+  const [receivedMusics, setReceivedMusics] = useState(false)
+  const [faixas, setFaixas] = useState([])
+  const [faixasFiltradas, setFaixasFiltradas] = useState([])
+  const [selectedFaixas, setSelectedFaixas] = useState([])
+
+  const pl = JSON.parse(localStorage.getItem("current_playlist"))
+
+  const getMusics = () => {
+    if (!receivedMusics) return []
+
+    let Faixas = []
+    Object.keys(pl.id_faixas).map(ca => {
+      pl.id_faixas[ca].map(pos => {
+        let faixa = faixasFiltradas.find(x=> x['cod_album'] == ca && x['posicao'] == pos)
+        if(faixa) Faixas = Faixas.concat(faixa)
+      })
+    })
+    return Faixas
+  }
+
+  const addFaixas = () => {
+    for(let i in selectedFaixas){
+      add_faixa_into_playlist(selectedFaixas[i], pl, res => {
+        if(res.message != 'Ok') alert(res.message)
+        if(i == selectedFaixas.length -1){
+          alert("Músicas adicionadas com sucesso!")
+          navigation.navigate('PlaylistDescription')
+        }
+      })
+    }
+  }
+  
+  React.useEffect(() => {
+    if (!sentMusics) {
+      getFaixas((res) => {
+        let Faixas = []
+
+        for(let i in res.body.faixas){
+          let faixa = res.body.faixas[i]
+          let ca = faixa['cod_album']
+          let pos = faixa['posicao']
+          if(pl.id_faixas[ca]){
+            if(pl.id_faixas[ca].find(x=> x==pos)){
+              continue
+            }
+          }
+          Faixas = Faixas.concat(faixa)
+        }
+
+        setSentMusics(true)
+        setReceivedMusics(true)
+        setFaixas(Faixas)
+        setFaixasFiltradas(Faixas)
+      });
+      setSentMusics(true)
+    }
+  })
+  
+  const onChangeSearch = query => {
+    setFaixasFiltradas(filter_faixas(faixas, query))
+    setSearchQuery(query);
+  }
 
   /*{Web app}*/
   if(Platform.OS === 'web'){
@@ -35,7 +99,7 @@ export default function AddMusicsDescription(){
                 <Text style = {styleWeb.description}>Adicione suas músicas para sua playlist!</Text>
               </View>
             <View style={styleWeb.cardscontainer}>
-            <TouchableOpacity onPress={()=>{navigation.navigate('PlaylistDescription'); alert('Música(s) Adicionada(s)!')}}>
+            <TouchableOpacity onPress={addFaixas}>
               <View style={styleWeb.cards}>
                 <Text style={styleWeb.addmusic}>Adicionar Música(s)</Text>
               </View>
@@ -55,13 +119,14 @@ export default function AddMusicsDescription(){
             <View style = {styleWeb.table}>           
               <DataTable
                 columns={columns}
-                data={movies}
+                data={faixasFiltradas}
                 pagination
                 selectableRows
                 noHeader={true}
                 theme="SpotPer"
                 selectableRowsHighlight={true}
                 customStyles={customStyles}
+                onSelectedRowsChange = {value => setSelectedFaixas(value.selectedRows)}
               />
             </View>
           </View>

@@ -8,6 +8,7 @@ const onError = (err, cb) => {
         console.log("\x1b[31mErro ao tentar se conectar com o banco!\x1b[0m")
         cb(err)
     } else cb(err)
+    console.log(err)
 }
 
 /**
@@ -206,11 +207,11 @@ const removeFaixa = (posicao, cod_album, cb, err) => {
  * @param {function(error) err 
  */
 const addPlaylist = (playlist, cb, err) => {
-    let Query = `insert into Playlist values(
+    let Query = `insert into Playlist values (
         ${playlist.id},
         '${playlist.nome}',
         ${playlist.tempo_exec},
-        ${playlist.data_criacao}
+        '${playlist.data_criacao}'
     )`
     query(Query, () => {
         Object.keys(playlist.id_faixas).map(cod_album => {
@@ -219,12 +220,13 @@ const addPlaylist = (playlist, cb, err) => {
                     ${cod_album},
                     ${posicao},
                     ${playlist.id},
-                    ${Date.now()},
+                    '${new Date(Date.now()).toISOString().substring(0, 10)}',
                     0
                 )`
-                query(Query2, cb, err)
+                query(Query2, ()=>{}, err)
             })
         })
+        cb()
     }, err)
 }
 
@@ -249,7 +251,6 @@ const getPlayLists = (cb, err) => {
                 if (!Faixas[idp][ca]) Faixas[idp][ca] = []
                 Faixas[idp][ca] = Faixas[idp][ca].concat(pos)
             })
-            console.log(Faixas)
             res['recordset'].map(set => {
                 let pl = new Playlist(
                     set['id'],
@@ -305,18 +306,25 @@ const removePlayList = (id, cb, err) => {
  const insertFaixaPlayList = (faixa, pl, cb, err) => {
     let Query = `update Playlist
         set
-            tempo_exec=${pl.tempo_exec},
+            tempo_exec=${pl.tempo_exec}
         where
-            id_playlist=${pl.id}
+            id=${pl.id}
     `
     query(Query, () => {
         if(!pl.id_faixas[faixa.cod_album]) pl.id_faixas[faixa.cod_album] = []
         pl.id_faixas[faixa.cod_album] = pl.id_faixas[faixa.cod_album].concat(faixa.id)
-        let Query2 = `insert into Faixa_Playlist values(
-            ${cod_album},
-            ${posicao},
-            ${playlist.id},
-            ${Date.now()},
+
+        let Query2 = `insert into Faixa_Playlist (
+            cod_album,
+            posicao,
+            id_playlist,
+            data_ultima,
+            num_tocada
+        ) values (
+            ${faixa.cod_album},
+            ${faixa.posicao},
+            ${pl.id},
+            '${new Date(Date.now()).toISOString().substring(0, 10)}',
             0
         )`
         query(Query2, cb, err)
@@ -333,18 +341,19 @@ const removePlayList = (id, cb, err) => {
  const removeFaixaPlayList = (faixa, pl, cb, err) => {
     let Query = `update Playlist
         set
-            tempo_exec=${pl.tempo_exec},
+            tempo_exec=${pl.tempo_exec}
         where
-            id_playlist=${pl.id}
+            id=${pl.id}
     `
     query(Query, () => {
         if(!pl.id_faixas[faixa.cod_album]) pl.id_faixas[faixa.cod_album] = []
         pl.id_faixas[faixa.cod_album] = pl.id_faixas[faixa.cod_album].filter(x=> x != faixa.id)
+
         let Query2 = `delete from Faixa_Playlist where
             id_playlist=${pl.id} and
             cod_album=${faixa.cod_album} and
             posicao=${faixa.posicao}
-        )`
+        `
         query(Query2, cb, err)
     }, err)
 }

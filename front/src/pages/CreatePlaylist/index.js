@@ -7,12 +7,66 @@ import NavBar from '../../components/NavBar/NavBarPlaylists'
 import movies from '../../data/TableHome/Musics/music'
 import columns from '../../data/TableHome/Header/header'
 import styleWeb from '../../styles/web/CreatePlaylist/style'
+import { addPlaylist } from '../../../service/api.js'
+import { getFaixas } from '../../../service/api.js'
+import { filter_faixas } from '../../../service/utils.js'
 
 export default function CreatePlaylist(){
   const navigation = useNavigation();
   const [name, onChangeName] = React.useState("");
   const [searchQuery, setSearchQuery] = useState('');
-  const onChangeSearch = query => setSearchQuery(query);
+  const [sentMusics, setMusics] = useState(false)
+  const [faixas, setFaixas] = useState([])
+  const [faixasFiltradas, setFaixasFiltradas] = useState([])
+  const [selectedFaixas, setSelectedFaixas] = useState([])
+
+  React.useEffect(()=>{
+    if(!sentMusics){
+      getFaixas((res)=>{
+        setMusics(true)
+        setFaixas(res.body.faixas)
+        setFaixasFiltradas(res.body.faixas)
+      });
+      setMusics(true)
+    }
+  })
+  
+  const onChangeSearch = query => {
+    setFaixasFiltradas(filter_faixas(faixas, query))
+    setSearchQuery(query);
+  }
+
+
+  const createPlaylist = ()=> {
+    let id = 0
+    if(localStorage.getItem('playlists_last_id')) id = Number(localStorage.getItem('playlists_last_id'))
+
+    let playlist = {
+      id: id + 1,
+      nome: name,
+      tempo_exec: 0,
+      data_criacao: new Date(Date.now()).toISOString().substring(0, 10),
+      id_faixas: {}
+    }
+
+    selectedFaixas.map(faixa=>{
+      let ca = faixa.cod_album
+      let pos = faixa.posicao
+
+      if(!playlist.id_faixas[ca]) playlist.id_faixas[ca] = []
+      playlist.id_faixas[ca] = playlist.id_faixas[ca].concat(pos)
+
+      playlist.tempo_exec += faixa.duracao
+    })
+
+    addPlaylist(playlist, res=>{
+      if(res.message == 'Ok'){
+        alert("Playlist criada com sucesso!")
+        navigation.navigate('Playlists')
+        localStorage.setItem('playlists_last_id', id + 1)
+      }else alert(res.message)
+    })
+  }
 
   /*{Web app}*/
   if(Platform.OS === 'web'){
@@ -37,34 +91,15 @@ export default function CreatePlaylist(){
                     placeholder="Nome da Playlist"
                     keyboardType="numeric"
                 />
-                <TextInput
-                    multiline
-                    style={styleWeb.inputdescription}
-                    onChangeText={onChangeName}
-                    value={name}
-                    placeholder="Descrição"
-                    keyboardType="numeric"
-                />
               </View>
             <View style={{flexDirection:'row', justifyContent:'space-between'}}>
               <View>
-              <TouchableOpacity onPress={()=>{navigation.navigate('Playlists');alert('Playlist Criada!')}}>
-                <View style={styleWeb.cardcreate}>
-                  <Text style={styleWeb.createplaylist}>Adicionar Playlist</Text>
-                </View>
-              </TouchableOpacity>
               </View>
               <View>
               <View style={styleWeb.cardscontainer}>
-              <TouchableOpacity onPress={()=>navigation.navigate('AddMusicsPlaylist')}>
-                <View style={styleWeb.cards}>
-                  <Text style={styleWeb.addmusic}>Adicionar Música(s)</Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={()=>alert('Música(s) Excluída(s)!')}>
-                <View style={styleWeb.cards}>
-                  <Text style={styleWeb.removemusic}>Excluir Música</Text>
+              <TouchableOpacity onPress={createPlaylist}>
+                <View style={styleWeb.cardcreate}>
+                  <Text style={styleWeb.createplaylist}>Adicionar Playlist</Text>
                 </View>
               </TouchableOpacity>
               </View>
@@ -83,13 +118,17 @@ export default function CreatePlaylist(){
             </View>
             <View style = {styleWeb.table}>           
               <DataTable
+                columns={columns}
+                data={faixasFiltradas}
+                theme="SpotPer"
+                customStyles={customStyles}
+                noHeader
                 pagination
                 selectableRows
-                noHeader={true}
-                theme="SpotPer"
-                noDataComponent="Sem músicas adicionadas"
-                selectableRowsHighlight={true}
-                customStyles={customStyles}
+                selectableRowsHighlight
+                highlightOnHover
+                pointerOnHover
+                onSelectedRowsChange = {value => setSelectedFaixas(value.selectedRows)}
               />
             </View>
           </View>

@@ -1,31 +1,39 @@
-import React, {useState} from 'react';
-import {View,Text, Platform} from 'react-native';
+import React, { useState } from 'react';
+import { View,Text, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import DataTable, {createTheme} from "react-data-table-component";
-import {Searchbar} from 'react-native-paper'
-import {getFaixas} from '../../../service/api.js'
+import DataTable, { createTheme } from "react-data-table-component";
+import { Searchbar } from 'react-native-paper'
 import NavBar from '../../components/NavBar/NavBarHome'
 import ImageGiant from '../../components/ImageGiant'
 import columns from '../../data/TableHome/Header/header'
 import styleWeb from '../../styles/web/Home/style'
 import music from '../../data/TableHome/Musics/music.js';
+import { getFaixas } from '../../../service/api.js'
+import { filter_faixas } from '../../../service/utils.js'
 
 
 export default function Home(){
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
-  const onChangeSearch = query => setSearchQuery(query);
-  const [musics, setMusics] = useState({sent:false,musics:[]});
+  const [sentMusics, setMusics] = useState(false)
+  const [faixas, setFaixas] = useState([])
+  const [faixasFiltradas, setFaixasFiltradas] = useState([])
+
   React.useEffect(()=>{
-    if(!musics.sent){
+    if(!sentMusics){
       getFaixas((res)=>{
-        musics.musics = res.body.faixas;
-        musics.sent = true;
-        setMusics(musics)
+        setMusics(true)
+        setFaixas(res.body.faixas)
+        setFaixasFiltradas(res.body.faixas)
       });
-      setMusics({sent:true,musics:[]})
+      setMusics(true)
     }
   })
+
+  const onChangeSearch = query => {
+    setFaixasFiltradas(filter_faixas(faixas, query))
+    setSearchQuery(query);
+  }
 
   /*{Web app}*/
   if(Platform.OS === 'web'){
@@ -58,7 +66,7 @@ export default function Home(){
             <View style = {styleWeb.table}>           
               <DataTable
                 columns={columns}
-                data={musics.musics}
+                data={faixasFiltradas}
                 theme="SpotPer"
                 customStyles={customStyles}
                 noHeader
@@ -66,7 +74,10 @@ export default function Home(){
                 selectableRowsHighlight
                 highlightOnHover
                 pointerOnHover
-                onRowClicked = {() => {navigation.navigate('MusicPlayerTest')}}
+                onRowClicked = {row => {
+                  localStorage.setItem('current_music', JSON.stringify(row))
+                  navigation.navigate('MusicPlayerTest')
+                }}
               />
             </View>
           </View>

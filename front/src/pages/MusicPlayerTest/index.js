@@ -9,10 +9,14 @@ export default function MusicPlayer(){
   const onChangeSearch = query => setSearchQuery(query);
   const [sound, setSound] = React.useState();
   const [playing, setPlaying] = React.useState(true);
+
+  const faixa = JSON.parse(localStorage.getItem('current_music'))
+  console.log(faixa)
+
   async function playSound(){
     if(playing){
       console.log('Playing Sound');
-      const { sound } =  await Audio.Sound.createAsync({uri: 'http://docs.google.com/uc?export=open&id=1XbqsgaIPU5cYH_4zbq97w4PnrYUuJsCl'}, {shouldPlay:true});
+      const { sound } =  await Audio.Sound.createAsync({uri: faixa.link}, {shouldPlay:true});
       console.log('Loading Sound')
       setSound(sound);
       setPlaying(false);
@@ -32,16 +36,15 @@ export default function MusicPlayer(){
           <NavBar/>
         </View>
         <View style = {{flex:1}}>
-          <ImageBackground source={require('../../../assets/player.png')} style={styleWeb.image}>
+          <ImageBackground source={require('../../../assets/player2.png')} style={styleWeb.image}>
             <View style ={styleWeb.tocador}>
               <Text style={styleWeb.title}>Música em Execução</Text>
               <View style = {{paddingTop:60}}/>
-              <Image source = {require('../../../assets/noTimeToDie.png')} style={styleWeb.imageplayer}/>
+              <Image source = {require('../../../assets/player.png')} style={styleWeb.imageplayer}/>
               <View style = {{paddingTop:60}}/>
-              <Text style={styleWeb.musicname}>No Time to Die</Text>
-              <View style = {{paddingTop:60}}/>
-              <Text style= {{textAlign:'center', padding:20}}>"No Time to Die" is a song by American singer and songwriter Billie Eilish. It is the theme song for the upcoming James Bond film of the same name, and was released through Darkroom and Interscope Records on February 13, 2020. The song was written by Eilish and her brother Finneas O'Connell, and recorded in a bedroom studio. At age 18, Eilish is the youngest artist to have written and recorded a James Bond theme song. The song won the Grammy Award for Best Song Written for Visual Media at the 63rd Annual Grammy Awards.</Text>
-              <View style = {{paddingTop:60}}/>
+              <Text style={styleWeb.musicname}>{faixa.nome}</Text>
+              <Text style= {{textAlign:'center', padding:20, fontSize:18}}>{faixa.descricao}</Text>
+              <View style = {{paddingTop:40}}/>
               <View style={styleWeb.buttons}>
                 <TouchableOpacity>
                   <Image source = {require('../../../assets/back.png')} style={styleWeb.playerbuttonsmini}/>

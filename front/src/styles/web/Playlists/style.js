@@ -25,9 +25,9 @@ const style = StyleSheet.create({
     title:{
         fontSize:30,
         fontWeight:'bold',
+        paddingLeft:10,
         color:'#3E6097',
         textAlign:'center',
-        paddingTop:20
     },
     description:{
         fontSize:18,

@@ -66,15 +66,44 @@ const getAlbum = (cb) => {
     api.get('album').then(res => response(res, cb), error)
 }
 
+const addPlaylist = (playlist, cb) => {
+    api.post('playlist', playlist).then(res=> response(res, cb), error)
+}
+
+const add_faixa_into_playlist = (faixa, playlist, cb) => {
+    playlist.tempo_exec += faixa.duracao
+    api.post('faixa_playlist', {
+        faixa: faixa,
+        playlist: playlist
+    }).then(res => response(res, cb), error)
+}
+
+const remove_faixa_from_playlist = (faixa, playlist, cb) => {
+    playlist.tempo_exec -= faixa.duracao
+    if(playlist.tempo_exec == 0){
+        alert("Playlist não pode ficar vazia!")
+        return;
+    }
+    api.delete('faixa_playlist', {
+        data: {
+            faixa: faixa,
+            playlist: playlist
+        }
+    }).then(res => response(res, cb), error)
+}
+
 export {
     api,
     getUser,
     getAlbum,
     getFaixas,
     postLogin,
+    addPlaylist,
     getPlaylists,
     registerUser,
     removePlaylist,
     sendResetRequest,
     sendResetPassword,
+    add_faixa_into_playlist,
+    remove_faixa_from_playlist
 }
