@@ -41,7 +41,7 @@ export default function AddMusicsDescription(){
         if(res.message != 'Ok') alert(res.message)
         if(i == selectedFaixas.length -1){
           alert("Músicas adicionadas com sucesso!")
-          navigation.navigate('PlaylistDescription')
+          navigation.navigate('Home')
         }
       })
     }

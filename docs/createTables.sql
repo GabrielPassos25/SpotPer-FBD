@@ -228,4 +228,4 @@ CREATE TABLE Usuario
 	
 	CONSTRAINT fk_Usuario
 	PRIMARY KEY (email),
-)
+) ON app_fg01

@@ -62,7 +62,7 @@ export default function CreatePlaylist(){
     addPlaylist(playlist, res=>{
       if(res.message == 'Ok'){
         alert("Playlist criada com sucesso!")
-        navigation.navigate('Playlists')
+        navigation.navigate('Home')
         localStorage.setItem('playlists_last_id', id + 1)
       }else alert(res.message)
     })

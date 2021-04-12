@@ -48,9 +48,10 @@ export default function Home(){
           </View>
           <View style = {styleWeb.home}>
             <View style={styleWeb.containertext}>
-              <Text style = {styleWeb.title}>Suas Músicas Mais Tocadas</Text>
+              <Text style = {styleWeb.title}>Todas Suas Músicas</Text>
               <View style={{paddingTop:20}}></View>
-              <Text style = {styleWeb.description}>Selecionamos as músicas que você mais escutou nos últimos dias. Escute, agora mesmo, suas músicas do momento!</Text>
+              <Text style = {styleWeb.description}>Aqui está a seleção de todas as suas músicas!</Text>
+              <Text style = {styleWeb.description}>Dica: Crie uma playlist para organizar a visualização das suas músicas.</Text>
               <View style={{paddingTop:20}}></View>
               <View style={styleWeb.containersearch}>
                 <View style={styleWeb.searchbar}>

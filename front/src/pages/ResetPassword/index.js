@@ -17,13 +17,11 @@ export default function ResetPassword(){
     const reset = ()=>{
         if(document){
             let url = document.URL.split(RegExp(":\\d+/"))[1]
-            console.log(url)
             if(url){
                 let email = url.split('/')[1]
                 let token = url.split('/')[2]
                 if(email && token){
                     alert("Okay!")
-                    console.log(email, token)
                     sendResetPassword(email, token, password, res=>{
                         if(res.message == 'Ok'){
                             alert("Senha redefinida com sucesso!")

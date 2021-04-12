@@ -11,18 +11,14 @@ export default function MusicPlayer(){
   const [playing, setPlaying] = React.useState(true);
 
   const faixa = JSON.parse(localStorage.getItem('current_music'))
-  console.log(faixa)
 
   async function playSound(){
     if(playing){
-      console.log('Playing Sound');
       const { sound } =  await Audio.Sound.createAsync({uri: faixa.link}, {shouldPlay:true});
-      console.log('Loading Sound')
       setSound(sound);
       setPlaying(false);
     }
     else{
-      console.log('Pausing Sound');
       await sound.pauseAsync();
       setPlaying(true);
     }

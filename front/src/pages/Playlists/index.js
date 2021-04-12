@@ -21,17 +21,12 @@ export default function Playlists() {
     received: false,
   })
 
-  function refreshPage(){ 
-    window.location.reload(); 
-  }
-
   const deletePlaylist = (id) => {
     removePlaylist(id, res => {
       if (res.message == 'Ok') {
         alert("Playlist deletada com sucesso!")
         requestPlaylists()
         navigation.navigate('Playlists')
-        refreshPage
       } else alert(res.message)
     })
   }

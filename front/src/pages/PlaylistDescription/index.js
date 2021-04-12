@@ -26,7 +26,7 @@ export default function PlaylistDescription(){
     removePlaylist(pl.id, res => {
       if (res.message == 'Ok') {
         alert("Playlist deletada com sucesso!")
-        navigation.navigate('Playlists')
+        navigation.navigate('Home')
       } else alert(res.message)
     })
   }
@@ -50,7 +50,7 @@ export default function PlaylistDescription(){
         if(res.message != 'Ok') alert(res.message)
         if(i == selectedFaixas.length -1){
           alert("Músicas removidas com sucesso!")
-          navigation.navigate('PlaylistDescription')
+          navigation.navigate('Home')
         }
       })
     }

@@ -17,15 +17,12 @@ export default function Login(){
     
     React.useEffect(()=>{
         let url = document.URL.split(RegExp(":\\d+\\/"))[1]
-        console.log(url)
         if(url && url.startsWith('reset')){
             navigation.navigate('ResetPassword')
         }
     })
 
     const login = () => {
-        console.log(email);
-        console.log(password);
         postLogin(email, password, res=>{
             if(res.message == 'Ok'){
                 navigation.navigate('Home')
