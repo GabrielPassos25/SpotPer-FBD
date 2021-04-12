@@ -27,15 +27,6 @@ export default function NavBar(){
                     </TouchableOpacity>
                     <Text style = {{fontSize:20}}>|</Text>
                     <View style={{paddingLeft:10}}/>
-                    <TouchableOpacity style ={styleWeb.options} onPress= {()=>navigation.navigate('AllMusics')}>
-                        <View style ={styleWeb.options}>
-                            <Image source = {require('../../../../assets/faixas.png')} style ={styleWeb.icons}/>
-                            <Text style={styleWeb.textDeactive}>Faixas</Text>
-                        </View>
-                    </TouchableOpacity>
-                    <View style={{paddingLeft:10}}/>
-                    <Text style = {{fontSize:20}}>|</Text>
-                    <View style={{paddingLeft:10}}/>
                     <TouchableOpacity style ={styleWeb.options} onPress= {()=>navigation.navigate('Playlists')}>
                         <View style ={styleWeb.options}>
                             <Image source = {require('../../../../assets/playlistsBlue.png')} style ={styleWeb.icons}/>
@@ -54,7 +45,11 @@ export default function NavBar(){
                 </View>
                 <View style={styleWeb.profile}>
                     <View>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress = {() => {
+                            if(confirm('Deseja Realmente Sair?')){
+                                navigation.navigate('Login')
+                            }
+                        }}>
                             <Image source = {require('../../../../assets/profile.png')} style ={styleWeb.profileicon}/>
                         </TouchableOpacity>
                     </View>

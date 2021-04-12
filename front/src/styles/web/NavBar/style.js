@@ -15,7 +15,7 @@ const style = StyleSheet.create({
     options:{
         flexDirection:'column',
         alignItems:'center',
-        width:"25%",
+        width:"33%",
         justifyContent:'center',
     },
     textlogo:{
